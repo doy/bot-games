@@ -2,7 +2,7 @@
 package Bot::Games;
 use Moose;
 use Module::Pluggable
-    search_path => 'Bot::Games::Game'
+    search_path => 'Bot::Games::Game',
     except      => ['Bot::Games::Ghostlike'],
     require     => 1,
     sub_name    => 'games';
