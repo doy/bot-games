@@ -38,6 +38,7 @@ sub turn {
 sub give_up {
     my $self = shift;
     $self->is_over($self->_solution);
+    return;
 }
 
 my @ops = ('+', '-', '*', '/');
