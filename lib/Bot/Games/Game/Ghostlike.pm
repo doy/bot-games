@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-package Bot::Games::Ghostlike;
+package Bot::Games::Game::Ghostlike;
 use Moose;
 use Games::Word::Wordlist;
 extends 'Bot::Games::Game';
