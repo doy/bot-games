@@ -66,6 +66,18 @@ sub said {
     }
     return $output;
 }
+around said => sub {
+    my $orig = shift;
+    my $self = shift;
+    my $ret = $self->$orig(@_);
+    if (blessed $ret) {
+        $ret = "$ret";
+    }
+    elsif (ref($ret) && ref($ret) eq 'ARRAY') {
+        $ret = join ', ', @$ret;
+    }
+    return $ret;
+};
 
 sub valid_game {
     my $self = shift;
