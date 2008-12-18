@@ -51,7 +51,7 @@ sub said {
         my ($action, $arg) = ($1, $2);
         return "$action is private in $game_name"
             if $action =~ s/^_//;
-        return $game->$action
+        return $game->$action()
             if $game->meta->find_attribute_by_name($action);
         return $game->$action($args->{who}, $arg)
             if $game->can($action);
