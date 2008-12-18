@@ -74,7 +74,8 @@ sub said {
     }
 
     if (my $end_msg = $game->is_over) {
-        $self->say(%$args, body => $self->_format($output));
+        $self->say(%$args, body => $self->_format($output))
+            if defined $output;
         $output = $end_msg;
         delete $self->active_games->{$game_name};
     }
