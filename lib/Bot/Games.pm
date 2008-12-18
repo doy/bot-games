@@ -9,7 +9,7 @@ use Module::Pluggable
 extends 'Bot::BasicBot';
 
 has prefix => (
-    is       => 'ro',
+    is       => 'rw',
     isa      => 'Str',
     lazy     => 1,
     default  => '!',
