@@ -38,18 +38,20 @@ sub said {
     my $prefix = $self->prefix;
 
     return if $args->{channel} eq 'msg';
-    return unless $args->{body} =~ /^$prefix(\w+)\s+(.*)/;
+    return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
     my ($game_name, $action) = ($1, $2);
     return unless $self->valid_game($game_name);
 
     my $game = $self->active_games->{$game_name};
-    if (!defined $game) {
+    if (!defined $game || !defined $action) {
         $game = $self->game_package($game_name)->new;
         $self->active_games->{$game_name} = $game;
         my $output = $game->_init($args->{who});
         $self->say(%$args, body => $self->_format($output))
             if defined $output;
     }
+
+    return unless defined $action;
 
     my $output;
     if ($action =~ /-(\w+)\s*(.*)/) {
