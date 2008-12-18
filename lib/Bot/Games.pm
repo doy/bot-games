@@ -57,7 +57,7 @@ sub said {
             $output = $game->$action();
         }
         elsif ($game->can($action)) {
-            $output = $game->$action($args->{who}, $arg);
+            $output = $game->$action($arg, {player => $args->{who}});
         }
         else {
             $output = "Unknown command $action for game $game_name";

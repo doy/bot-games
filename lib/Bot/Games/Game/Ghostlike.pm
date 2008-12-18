@@ -72,7 +72,8 @@ sub turn {
 
 sub challenge {
     my $self = shift;
-    my ($player, $word) = @_;
+    my ($word, $args) = @_;
+    my $player = $args->{player};
     return "It's " . $self->current_player . "'s turn!"
         if $player ne $self->current_player;
     my $prev = $self->previous_player;
