@@ -11,12 +11,14 @@ extends 'Bot::BasicBot';
 has prefix => (
     is       => 'ro',
     isa      => 'Str',
+    lazy     => 1,
     default  => '!',
 );
 
 has active_games => (
     is      => 'ro',
     isa     => 'HashRef[Bot::Games::Game]',
+    lazy    => 1,
     default => sub { {} },
 );
 
