@@ -7,6 +7,11 @@ has '+help' => (
     default => '24 help',
 );
 
+has state => (
+    is      => 'rw',
+    isa     => 'Str',
+);
+
 has _solution => (
     is      => 'rw',
     isa     => 'Str',
@@ -71,7 +76,8 @@ sub _generate_24 {
     pop @nums;
     shift @nums;
     $self->_solution(join '', @nums);
-    return join ' ', (grep { /\d/ } @nums);
+    $self->state(join ' ', (grep { /\d/ } @nums));
+    return $self->state;
 }
 
 sub _evaluate {
