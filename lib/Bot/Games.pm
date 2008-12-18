@@ -42,7 +42,7 @@ sub said {
     my ($game_name, $action) = ($1, $2);
     return unless $self->valid_game($game_name);
 
-    my $game = $self->games->{$game_name};
+    my $game = $self->active_games->{$game_name};
     $game = $self->active_games->{$game_name}
           = $self->game_package($game_name)->new
         unless defined $game;
