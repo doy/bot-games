@@ -47,18 +47,26 @@ sub said {
           = $self->game_package($game_name)->new
         unless defined $game;
 
+    my $output;
     if ($action =~ /-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
-        return "$action is private in $game_name"
-            if $action =~ s/^_//;
-        return $game->$action()
-            if $game->meta->find_attribute_by_name($action);
-        return $game->$action($args->{who}, $arg)
-            if $game->can($action);
-        return "Unknown command $action for game $game_name.";
+        if ($action =~ s/^_//) {
+            $output = "$action is private in $game_name";
+        }
+        elsif ($game->meta->find_attribute_by_name($action)) {
+            $output = $game->$action();
+        }
+        elsif ($game->can($action)) {
+            $output = $game->$action($args->{who}, $arg);
+        }
+        else {
+            $output = "Unknown command $action for game $game_name";
+        }
+    }
+    else {
+        $output = $game->turn($args->{who}, $action);
     }
 
-    my $output = $game->turn($args->{who}, $action);
     if (my $end_msg = $game->is_over) {
         $self->say(%$args, body => $output);
         $output = $end_msg;
