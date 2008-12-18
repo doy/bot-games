@@ -1,13 +1,19 @@
 #!/usr/bin/perl
 package Bot::Games::Game;
 use Moose;
+use MooseX::AttributeHelpers;
 use DateTime;
 
 has players => (
+    metaclass  => 'Collection::Array',
     is         => 'rw',
     isa        => 'ArrayRef[Str]',
     auto_deref => 1,
     default    => sub { [] },
+    provides   => {
+        push  => '_add_player',
+        count => 'num_players',
+    },
 );
 
 has start_time => (
