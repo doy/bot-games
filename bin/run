@@ -3,12 +3,11 @@ use strict;
 use warnings;
 use Bot::Games;
 
-my $bot = Bot::Games->new(
+Bot::Games->new(
     server   => 'irc.efnet.net',
     channels => ['#netmonster'],
     nick     => 'doygames',
     username => 'doygames',
     name     => 'doygames',
     prefix   => '@',
-);
-$bot->run;
+)->run;
