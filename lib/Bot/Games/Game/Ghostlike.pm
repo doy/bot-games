@@ -39,14 +39,14 @@ has _wordlist => (
     },
 );
 
-around state => (
+around state => sub {
     my $orig = shift;
     my $self = shift;
     return $self->$orig unless @_;
     my ($state) = @_;
     $state = uc $state;
     return $self->$orig($state);
-);
+};
 
 sub turn {
     my $self = shift;
@@ -79,7 +79,7 @@ sub challenge {
     my $challenger = $self->has_challenger ? $self->challenger : $player;
     if ($word) {
         if (!$self->valid_word_from_state($word)) {
-            return "$word is not valid for state $state!";
+            return "$word is not valid for state " . $self->state . "!";
         }
         elsif ($self->_valid_word($word)) {
             $self->is_over("$word is a word! $challenger wins!");
@@ -106,7 +106,7 @@ sub previous_player {
 sub next_player {
     my $self = shift;
     return unless $self->_has_current_player;
-    return $self->players->[($self->_current_player_index + 1) % $self->num_players)];
+    return $self->players->[($self->_current_player_index + 1) % $self->num_players];
 }
 
 sub valid_move { 1 }
