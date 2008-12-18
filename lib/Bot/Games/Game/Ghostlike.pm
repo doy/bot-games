@@ -34,6 +34,9 @@ has _wordlist => (
     is         => 'ro',
     isa        => 'Games::Word::Wordlist',
     default    => sub { Games::Word::Wordlist->new('/usr/share/dict/words') },
+    handles    => {
+        _valid_word => 'is_word',
+    },
 );
 
 around state => (
@@ -113,8 +116,6 @@ sub valid_word_from_state {
     my ($word) = @_;
     return $word eq $self->state;
 }
-
-sub _valid_word { 1 }
 
 sub _current_player_index {
     my $self = shift;
