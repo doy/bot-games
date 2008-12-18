@@ -34,9 +34,14 @@ sub said {
           = $self->game_package($game_name)->new
         unless defined $game;
 
-    if ($action =~ /-(.*)/) {
-        my $action = $1;
-        return $game->$action($args{who}) if $game->can($action);
+    if ($action =~ /-(\w+)\s*(.*)/) {
+        my ($action, $arg) = ($1, $2);
+        return "$action is private in $game_name"
+            if $action =~ s/^_//;
+        return $game->$action
+            if $game->meta->has_attribute($action);
+        return $game->$action($args{who}, $arg)
+            if $game->can($action);
         return "Unknown command $action for game $game_name.";
     }
 
