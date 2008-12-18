@@ -114,7 +114,7 @@ sub valid_move { 1 }
 sub valid_word_from_state {
     my $self = shift;
     my ($word) = @_;
-    return $word eq $self->state;
+    return uc($word) eq $self->state;
 }
 
 sub _current_player_index {
