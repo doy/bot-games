@@ -40,8 +40,13 @@ sub said {
         return "Unknown command $action for game $game_name.";
     }
 
-    $game->turn($args{who}, $action);
-    delete $self->active_games->{$game_name} if $game->is_over;
+    my $output = $game->turn($args{who}, $action);
+    if (my $end_msg = $game->is_over) {
+        $self->say(%args, body => $output);
+        $output = $end_msg;
+        delete $self->active_games->{$game_name};
+    }
+    return $output;
 }
 
 sub valid_game {
