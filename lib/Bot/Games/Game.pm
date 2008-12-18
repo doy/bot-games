@@ -30,7 +30,6 @@ has last_turn_time => (
 has is_over => (
     is         => 'rw',
     isa        => 'Str',
-    default    => '',
 );
 
 sub turn { "Games must provide a turn method" }
