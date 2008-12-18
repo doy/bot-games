@@ -68,7 +68,7 @@ sub said {
     }
 
     if (my $end_msg = $game->is_over) {
-        $self->say(%$args, body => $output);
+        $self->say(%$args, body => $self->format($output));
         $output = $end_msg;
         delete $self->active_games->{$game_name};
     }
@@ -77,14 +77,7 @@ sub said {
 around said => sub {
     my $orig = shift;
     my $self = shift;
-    my $ret = $self->$orig(@_);
-    if (blessed $ret) {
-        $ret = "$ret";
-    }
-    elsif (ref($ret) && ref($ret) eq 'ARRAY') {
-        $ret = join ', ', @$ret;
-    }
-    return $ret;
+    return $self->_format($self->$orig(@_));
 };
 
 sub valid_game {
@@ -98,6 +91,18 @@ sub game_package {
     my $self = shift;
     my ($name) = @_;
     return 'Bot::Games::Game::' . ucfirst($name);
+}
+
+sub _format {
+    my $self = shift;
+    my ($to_print) = @_;
+    if (blessed $to_print) {
+        $to_print = "$to_print";
+    }
+    elsif (ref($to_print) && ref($to_print) eq 'ARRAY') {
+        $to_print = join ', ', @$to_print;
+    }
+    return $to_print;
 }
 
 1;
