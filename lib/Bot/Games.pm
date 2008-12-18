@@ -102,6 +102,9 @@ sub _format {
     elsif (ref($to_print) && ref($to_print) eq 'ARRAY') {
         $to_print = join ', ', @$to_print;
     }
+    elsif (!$to_print) {
+        $to_print = '0';
+    }
     return $to_print;
 }
 
