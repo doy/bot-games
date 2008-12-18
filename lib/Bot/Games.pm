@@ -22,6 +22,16 @@ has active_games => (
     default => sub { {} },
 );
 
+around new => sub {
+    my $orig = shift;
+    my $class = shift;
+    my %args = @_;
+    my $prefix = delete $args{prefix};
+    my $self = $class->$orig(%args);
+    $self->prefix($prefix) if $prefix;
+    return $self;
+};
+
 sub said {
     my $self = shift;
     my ($args) = @_;
