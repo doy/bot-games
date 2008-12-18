@@ -43,9 +43,13 @@ sub said {
     return unless $self->valid_game($game_name);
 
     my $game = $self->active_games->{$game_name};
-    $game = $self->active_games->{$game_name}
-          = $self->game_package($game_name)->new
-        unless defined $game;
+    if (!defined $game) {
+        $game = $self->game_package($game_name)->new;
+        $self->active_games->{$game_name} = $game;
+        my $output = $game->_init($args->{who});
+        $self->say(%$args, body => $self->_format($output))
+            if defined $output;
+    }
 
     my $output;
     if ($action =~ /-(\w+)\s*(.*)/) {
