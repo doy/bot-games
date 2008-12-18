@@ -54,7 +54,7 @@ sub said {
     return unless defined $action;
 
     my $output;
-    if ($action =~ /-(\w+)\s*(.*)/) {
+    if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
         if ($action =~ s/^_//) {
             $output = "$action is private in $game_name";
