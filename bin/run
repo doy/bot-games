@@ -7,5 +7,7 @@ my $bot = Bot::Games->new(
     server   => 'irc.efnet.net',
     channels => ['#netmonster'],
     nick     => 'doygames',
+    username => 'doygames',
+    name     => 'doygames',
 );
 $bot->run;
