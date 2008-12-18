@@ -3,7 +3,7 @@ package Bot::Games;
 use Moose;
 use Module::Pluggable
     search_path => 'Bot::Games::Game',
-    except      => ['Bot::Games::Ghostlike'],
+    except      => ['Bot::Games::Game::Ghostlike'],
     require     => 1,
     sub_name    => 'games';
 extends 'Bot::BasicBot';
@@ -77,7 +77,7 @@ sub valid_game {
 sub game_package {
     my $self = shift;
     my ($name) = @_;
-    return 'Bot::Games::' . ucfirst($name);
+    return 'Bot::Games::Game::' . ucfirst($name);
 }
 
 1;
