@@ -52,7 +52,7 @@ sub said {
         return "$action is private in $game_name"
             if $action =~ s/^_//;
         return $game->$action
-            if $game->meta->has_attribute($action);
+            if $game->meta->find_attribute_by_name($action);
         return $game->$action($args->{who}, $arg)
             if $game->can($action);
         return "Unknown command $action for game $game_name.";
