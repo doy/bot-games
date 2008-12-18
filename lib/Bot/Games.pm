@@ -22,7 +22,7 @@ has active_games => (
 
 sub said {
     my $self = shift;
-    my $args = @_;
+    my ($args) = @_;
     my $prefix = $self->prefix;
 
     return if $args->{channel} eq 'msg';
