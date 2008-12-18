@@ -25,6 +25,7 @@ sub said {
     my %args = @_;
     my $prefix = $self->prefix;
 
+    return if $args{channel} eq 'msg';
     return unless $args{body} =~ /^$prefix(\w+)\s+(.*)/;
     my ($game_name, $action) = ($1, $2);
     return unless $self->valid_game($game_name);
