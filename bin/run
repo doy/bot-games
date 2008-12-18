@@ -9,5 +9,6 @@ my $bot = Bot::Games->new(
     nick     => 'doygames',
     username => 'doygames',
     name     => 'doygames',
+    prefix   => '@',
 );
 $bot->run;
