@@ -22,11 +22,11 @@ has active_games => (
 
 sub said {
     my $self = shift;
-    my %args = @_;
+    my $args = @_;
     my $prefix = $self->prefix;
 
-    return if $args{channel} eq 'msg';
-    return unless $args{body} =~ /^$prefix(\w+)\s+(.*)/;
+    return if $args->{channel} eq 'msg';
+    return unless $args->{body} =~ /^$prefix(\w+)\s+(.*)/;
     my ($game_name, $action) = ($1, $2);
     return unless $self->valid_game($game_name);
 
@@ -41,14 +41,14 @@ sub said {
             if $action =~ s/^_//;
         return $game->$action
             if $game->meta->has_attribute($action);
-        return $game->$action($args{who}, $arg)
+        return $game->$action($args->{who}, $arg)
             if $game->can($action);
         return "Unknown command $action for game $game_name.";
     }
 
-    my $output = $game->turn($args{who}, $action);
+    my $output = $game->turn($args->{who}, $action);
     if (my $end_msg = $game->is_over) {
-        $self->say(%args, body => $output);
+        $self->say(%$args, body => $output);
         $output = $end_msg;
         delete $self->active_games->{$game_name};
     }
