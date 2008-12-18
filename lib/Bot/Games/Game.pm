@@ -4,6 +4,12 @@ use Moose;
 use MooseX::AttributeHelpers;
 use DateTime;
 
+has help => (
+    is         => 'ro',
+    isa        => 'Str',
+    default    => 'This game doesn\'t have any help text!',
+);
+
 has players => (
     metaclass  => 'Collection::Array',
     is         => 'rw',
