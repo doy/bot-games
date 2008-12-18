@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Bot::Games;
+
+my $bot = Bot::Games->new(
+    server   => 'irc.efnet.net',
+    channels => ['#netmonster'],
+    nick     => 'doygames',
+);
+$bot->run;
