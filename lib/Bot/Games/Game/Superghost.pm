@@ -14,4 +14,7 @@ sub valid_move {
         || uc(substr($move, 1))     eq $self->state;
 }
 
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
 1;

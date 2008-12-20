@@ -41,4 +41,8 @@ has is_over => (
 sub turn { "Games must provide a turn method" }
 after turn => sub { shift->last_turn_time(DateTime->now) };
 
+__PACKAGE__->meta->make_immutable;
+no Moose;
+no MooseX::AttributeHelpers;
+
 1;

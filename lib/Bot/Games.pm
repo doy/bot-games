@@ -116,4 +116,7 @@ sub _format {
     return $to_print;
 }
 
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
 1;

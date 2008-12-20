@@ -15,4 +15,7 @@ sub valid_move {
         && length($self->state) + 1 == length($move);
 }
 
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
 1;
