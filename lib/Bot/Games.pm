@@ -47,10 +47,8 @@ sub said {
     if (!defined $game || !defined $action) {
         $game = $self->game_package($game_name)->new;
         $self->active_games->{$game_name} = $game;
-        $output = $game->_init($args->{who})
+        return $self->_format($game->_init($args->{who}))
             if $game->can('_init');
-        $self->say(%$args, body => $self->_format($output))
-            if defined $output;
     }
 
     return unless defined $action;
