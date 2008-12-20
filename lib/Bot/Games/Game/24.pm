@@ -25,6 +25,11 @@ sub _init {
 sub turn {
     my $self = shift;
     my ($player, $expr) = @_;
+
+    my $numbers = join ',', sort split(/[-\+\*\/\(\)]+/, $expr);
+    my $solution = join ',', sort split(' ', $self->state);
+    return "invalid numbers" unless $numbers eq $solution;
+
     my $eval = $self->_evaluate($expr);
     if ($eval == 24) {
         $self->is_over("$player wins!");
