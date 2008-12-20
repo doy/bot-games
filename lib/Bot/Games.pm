@@ -42,18 +42,19 @@ sub said {
     my ($game_name, $action) = ($1, $2);
     return unless $self->valid_game($game_name);
 
+    my $output;
     my $game = $self->active_games->{$game_name};
     if (!defined $game || !defined $action) {
         $game = $self->game_package($game_name)->new;
         $self->active_games->{$game_name} = $game;
-        my $output = $game->_init($args->{who});
+        $output = $game->_init($args->{who})
+            if $game->can('_init');
         $self->say(%$args, body => $self->_format($output))
             if defined $output;
     }
 
     return unless defined $action;
 
-    my $output;
     if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
         if ($action =~ s/^_//) {
