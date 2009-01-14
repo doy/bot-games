@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games;
-use Moose;
+use Bot::Games::OO;
 use Module::Pluggable
     search_path => 'Bot::Games::Game',
     except      => ['Bot::Games::Game::Ghostlike'],
@@ -45,14 +45,14 @@ sub said {
 
     if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
-        if ($action =~ s/^_//) {
-            $output = "$action is private in $game_name";
-        }
-        elsif ($game->meta->find_attribute_by_name($action)) {
-            $output = $game->$action();
-        }
-        elsif ($game->can($action)) {
-            $output = $game->$action($arg, {player => $args->{who}});
+        my $method_meta = $game->meta->find_method_by_name($action);
+        # bleh. isa isn't what i want either, but it's getting closer.
+        if ($method_meta->isa('Bot::Games::Meta::Method::Command')) {
+            my @command_args;
+            if (!$game->meta->has_attribute($action)) {
+                push @command_args, ($arg, {player => $args->{who}});
+            }
+            $output = $game->$action(@command_args);
         }
         else {
             $output = "Unknown command $action for game $game_name";
@@ -105,6 +105,6 @@ sub _format {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 
 1;
