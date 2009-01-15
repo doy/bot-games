@@ -7,33 +7,38 @@ extends 'Bot::Games::Game';
 has current_player => (
     is         => 'rw',
     isa        => 'Str',
-    predicate  => '_has_current_player',
+    predicate  => 'has_current_player',
+    command    => 1,
 );
 
 has players_fixed => (
     is         => 'rw',
     isa        => 'Bool',
     default    => 0,
+    command    => 1,
 );
 
 has state => (
     is         => 'rw',
     isa        => 'Str',
     default    => '',
+    command    => 1,
 );
 
 has challenger => (
     is         => 'rw',
     isa        => 'Str',
     predicate  => 'has_challenger',
+    command    => 1,
+    commands   => ['has_challenger'],
 );
 
-has _wordlist => (
+has wordlist => (
     is         => 'ro',
     isa        => 'Games::Word::Wordlist',
     default    => sub { Games::Word::Wordlist->new('/usr/share/dict/words') },
     handles    => {
-        _valid_word => 'is_word',
+        valid_word => 'is_word',
     },
 );
 
@@ -50,10 +55,10 @@ sub turn {
     my $self = shift;
     my ($player, $state) = @_;
 
-    if ($self->_current_player_index == 0
+    if ($self->current_player_index == 0
      && !$self->players_fixed
      && !grep { $player eq $_ } $self->players) {
-        $self->_add_player($player);
+        $self->add_player($player);
         $self->current_player($player);
     }
 
@@ -68,7 +73,7 @@ sub turn {
     return $self->state($state);
 }
 
-sub challenge {
+command challenge => {
     my $self = shift;
     my ($word, $args) = @_;
     my $player = $args->{player};
@@ -80,7 +85,7 @@ sub challenge {
         if (!$self->valid_word_from_state($word)) {
             return "$word is not valid for state " . $self->state . "!";
         }
-        elsif ($self->_valid_word($word)) {
+        elsif ($self->valid_word($word)) {
             $self->is_over("$word is a word! $challenger wins!");
             return;
         }
@@ -94,29 +99,29 @@ sub challenge {
         $self->current_player($prev);
         return "$player is challenging $prev!";
     }
-}
+};
 
-sub previous_player {
+command previous_player => {
     my $self = shift;
-    return unless $self->_has_current_player;
-    return $self->players->[$self->_current_player_index - 1];
-}
+    return unless $self->has_current_player;
+    return $self->players->[$self->current_player_index - 1];
+};
 
-sub next_player {
+command next_player => {
     my $self = shift;
-    return unless $self->_has_current_player;
-    return $self->players->[($self->_current_player_index + 1) % $self->num_players];
-}
+    return unless $self->has_current_player;
+    return $self->players->[($self->current_player_index + 1) % $self->num_players];
+};
 
-sub valid_move { 1 }
+command valid_move => { 1 };
 
-sub valid_word_from_state {
+command valid_word_from_state => {
     my $self = shift;
     my ($word) = @_;
     return uc($word) eq $self->state;
-}
+};
 
-sub _current_player_index {
+sub current_player_index {
     my $self = shift;
     for (0..($self->num_players - 1)) {
         return $_ if $self->current_player eq $self->players->[$_];

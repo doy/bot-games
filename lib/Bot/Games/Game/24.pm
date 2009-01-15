@@ -10,16 +10,17 @@ has '+help' => (
 has state => (
     is      => 'rw',
     isa     => 'Str',
+    command => 1,
 );
 
-has _solution => (
+has solution => (
     is      => 'rw',
     isa     => 'Str',
 );
 
-sub _init {
+sub init {
     my $self = shift;
-    return $self->_generate_24;
+    return $self->generate_24;
 }
 
 sub turn {
@@ -30,7 +31,7 @@ sub turn {
     my $solution = join ',', sort split(' ', $self->state);
     return "invalid numbers" unless $numbers eq $solution;
 
-    my $eval = $self->_evaluate($expr);
+    my $eval = $self->evaluate($expr);
     if ($eval == 24) {
         $self->is_over("$player wins!");
         return;
@@ -40,15 +41,15 @@ sub turn {
     }
 }
 
-sub give_up {
+command give_up => {
     my $self = shift;
-    $self->is_over($self->_solution);
+    $self->is_over($self->solution);
     return;
-}
+};
 
 my @ops = ('+', '-', '*', '/');
 
-sub _generate_24 {
+sub generate_24 {
     my $self = shift;
     my @nums = (24);
     for (1..3) {
@@ -81,12 +82,12 @@ sub _generate_24 {
     }
     pop @nums;
     shift @nums;
-    $self->_solution(join '', @nums);
+    $self->solution(join '', @nums);
     $self->state(join ' ', (grep { /\d/ } @nums));
     return $self->state;
 }
 
-sub _evaluate {
+sub evaluate {
     my $self = shift;
     my ($expr) = @_;
     return 0 unless $expr =~ /^[-\d\+\*\/\(\)]+$/;

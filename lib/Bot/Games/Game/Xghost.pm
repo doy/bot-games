@@ -8,12 +8,12 @@ has '+help' => (
     default => "xghost help",
 );
 
-sub valid_move {
+command valid_move => {
     my $self = shift;
     my ($move) = @_;
     return is_substring($self->state, uc($move))
         && length($self->state) + 1 == length($move);
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
