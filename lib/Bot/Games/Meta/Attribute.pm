@@ -3,23 +3,33 @@ package Bot::Games::Meta::Attribute;
 use Moose;
 extends 'Moose::Meta::Attribute';
 
-has public => (
+has command => (
     is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
-before _process_options => sub {
-    my $self = shift;
-    my %args = @_;
-    die "Public accessors must be read-only"
-        if $args{is} eq 'rw' && $args{public};
-};
+has commands => (
+    is      => 'rw'
+    isa     => 'ArrayRef[Str]',
+    lazy    => 1,
+    default => sub { [] },
+);
 
-around accessor_metaclass => sub {
-    my $orig = shift;
+after install_accessors => sub {
     my $self = shift;
-    $self->public ? 'Bot::Games::Meta::Method::Command' : $self->$orig(@_);
+    my $accessor_meta = $self->get_read_method_ref;
+    if ($self->command) {
+        Moose::Util::apply_all_roles($accessor_meta, 'Bot::Games::Meta::Role::Command');
+        # don't let plugins pass arguments to reader methods
+        $accessor_meta->pass_args(0);
+    }
+    for my $method (@{ $self->commands }) {
+        my $method_meta = $self->find_method_by_name($method);
+        Moose::Util::apply_all_roles($method_meta, 'Bot::Games::Meta::Role::Command');
+        # don't let plugins pass arguments to generated methods (?)
+        $accessor_meta->pass_args(0);
+    }
 };
 
 __PACKAGE__->meta->make_immutable;
