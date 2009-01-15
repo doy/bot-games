@@ -8,6 +8,12 @@ has pass_args => (
     default => 1,
 );
 
+around execute => (
+    my $orig = shift;
+    my $self = shift;
+    return $self->pass_args ? $orig->$self(@_) : $orig->$self();
+);
+
 __PACKAGE__->meta->make_immutable;
 no Moose::Role;
 

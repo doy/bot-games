@@ -48,12 +48,7 @@ sub said {
         my $method_meta = $game->meta->find_method_by_name($action);
         if (blessed $method_meta
          && $method_meta->does('Bot::Games::Meta::Role::Command')) {
-            if ($method_meta->pass_args) {
-                $output = $game->$action($arg, {player => $args->{who}});
-            }
-            else {
-                $output = $game->$action();
-            }
+            $output = $game->$action($arg, {player => $args->{who}});
         }
         else {
             $output = "Unknown command $action for game $game_name";
