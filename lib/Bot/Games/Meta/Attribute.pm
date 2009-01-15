@@ -10,7 +10,7 @@ has command => (
 );
 
 has commands => (
-    is      => 'rw'
+    is      => 'rw',
     isa     => 'ArrayRef[Str]',
     lazy    => 1,
     default => sub { [] },

@@ -4,7 +4,6 @@ use Moose ();
 use Moose::Exporter;
 
 use Bot::Games::Meta::Class;
-use Bot::Games::Meta::Method::Command;
 
 sub command($&) {
     my $class = shift;
