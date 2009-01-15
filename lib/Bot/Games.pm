@@ -46,13 +46,14 @@ sub said {
     if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
         my $method_meta = $game->meta->find_method_by_name($action);
-        # bleh. isa isn't what i want either, but it's getting closer.
-        if ($method_meta->isa('Bot::Games::Meta::Method::Command')) {
-            my @command_args;
-            if (!$game->meta->has_attribute($action)) {
-                push @command_args, ($arg, {player => $args->{who}});
+        if (blessed $method_meta
+         && $method_meta->does('Bot::Games::Meta::Role::Command')) {
+            if ($method_meta->pass_args) {
+                $output = $game->$action($arg, {player => $args->{who}});
             }
-            $output = $game->$action(@command_args);
+            else {
+                $output = $game->$action();
+            }
         }
         else {
             $output = "Unknown command $action for game $game_name";
