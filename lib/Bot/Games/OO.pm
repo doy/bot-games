@@ -13,7 +13,7 @@ sub command {
         package_name => $class,
         name         => $name,
     );
-    Moose::Util::apply_all_roles($method_meta, 'Bot::Games::Meta::Role::Command');
+    Moose::Util::apply_all_roles($method_meta->meta, 'Bot::Games::Meta::Role::Command');
     $class->meta->add_method($name, $method_meta);
 }
 
