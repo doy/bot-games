@@ -14,7 +14,6 @@ around execute => sub {
     return $self->pass_args ? $orig->$self(@_) : $orig->$self();
 };
 
-__PACKAGE__->meta->make_immutable;
 no Moose::Role;
 
 1;
