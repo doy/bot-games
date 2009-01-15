@@ -39,9 +39,9 @@ sub turn {
     else {
         return $eval;
     }
-}
+};
 
-command give_up => {
+command give_up => sub {
     my $self = shift;
     $self->is_over($self->solution);
     return;

@@ -7,7 +7,7 @@ has '+help' => (
     default => "ghost help",
 );
 
-command valid_move => {
+command valid_move => sub {
     my $self = shift;
     my ($move) = @_;
     return uc(substr($move, 0, -1)) eq $self->state;

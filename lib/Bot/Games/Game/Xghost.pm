@@ -8,7 +8,7 @@ has '+help' => (
     default => "xghost help",
 );
 
-command valid_move => {
+command valid_move => sub {
     my $self = shift;
     my ($move) = @_;
     return is_substring($self->state, uc($move))

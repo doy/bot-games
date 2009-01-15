@@ -73,7 +73,7 @@ sub turn {
     return $self->state($state);
 }
 
-command challenge => {
+command challenge => sub {
     my $self = shift;
     my ($word, $args) = @_;
     my $player = $args->{player};
@@ -101,21 +101,21 @@ command challenge => {
     }
 };
 
-command previous_player => {
+command previous_player => sub {
     my $self = shift;
     return unless $self->has_current_player;
     return $self->players->[$self->current_player_index - 1];
 };
 
-command next_player => {
+command next_player => sub {
     my $self = shift;
     return unless $self->has_current_player;
     return $self->players->[($self->current_player_index + 1) % $self->num_players];
 };
 
-command valid_move => { 1 };
+command valid_move => sub { 1 };
 
-command valid_word_from_state => {
+command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
     return uc($word) eq $self->state;

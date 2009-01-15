@@ -5,7 +5,7 @@ use Moose::Exporter;
 
 use Bot::Games::Meta::Class;
 
-sub command($&) {
+sub command {
     my $class = shift;
     my ($name, $code) = @_;
     my $method_meta = Bot::Games::Meta::Method::Command->wrap(
