@@ -8,7 +8,7 @@ use Bot::Games::Meta::Class;
 sub command {
     my $class = shift;
     my ($name, $code) = @_;
-    my $method_meta = Bot::Games::Meta::Method::Command->wrap(
+    my $method_meta = Moose::Meta::Method->wrap(
         $code,
         package_name => $class,
         name         => $name,
