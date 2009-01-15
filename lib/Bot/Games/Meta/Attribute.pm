@@ -22,6 +22,7 @@ around accessor_metaclass => sub {
     $self->public ? 'Bot::Games::Meta::Method::Command' : $self->$orig(@_);
 };
 
+__PACKAGE__->meta->make_immutable;
 no Moose;
 
 1;
