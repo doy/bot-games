@@ -1,8 +1,6 @@
 #!/usr/bin/perl
-use strict;
-use warnings;
 package Bot::Games::Game::Ghostlike;
-use Moose;
+use Bot::Games::OO;
 use Games::Word::Wordlist;
 extends 'Bot::Games::Game';
 
@@ -127,6 +125,6 @@ sub _current_player_index {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 
 1;

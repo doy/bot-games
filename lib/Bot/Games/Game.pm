@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games::Game;
-use Moose;
+use Bot::Games::OO;
 use MooseX::AttributeHelpers;
 use DateTime;
 
@@ -42,7 +42,7 @@ sub turn { "Games must provide a turn method" }
 after turn => sub { shift->last_turn_time(DateTime->now) };
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 no MooseX::AttributeHelpers;
 
 1;

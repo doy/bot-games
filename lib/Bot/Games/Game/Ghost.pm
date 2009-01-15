@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games::Game::Ghost;
-use Moose;
+use Bot::Games::OO;
 extends 'Bot::Games::Game::Ghostlike';
 
 has '+help' => (
@@ -14,6 +14,6 @@ sub valid_move {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 
 1;

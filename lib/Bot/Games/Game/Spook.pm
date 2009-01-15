@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games::Game::Spook;
-use Moose;
+use Bot::Games::OO;
 use Games::Word qw/is_subpermutation/;
 extends 'Bot::Games::Game::Ghostlike';
 
@@ -24,6 +24,6 @@ sub valid_word_from_state {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 
 1;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games::Game::Xghost;
-use Moose;
+use Bot::Games::OO;
 use Games::Word qw/is_substring/;
 extends 'Bot::Games::Game::Ghostlike';
 
@@ -16,6 +16,6 @@ sub valid_move {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 
 1;

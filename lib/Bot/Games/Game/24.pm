@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games::Game::24;
-use Moose;
+use Bot::Games::OO;
 extends 'Bot::Games::Game';
 
 has '+help' => (
@@ -94,6 +94,6 @@ sub _evaluate {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no Bot::Games::OO;
 
 1;
