@@ -2,8 +2,8 @@
 package Bot::Games::OO;
 use Moose ();
 use Moose::Exporter;
+use Moose::Util::MetaRole;
 
-use Bot::Games::Meta::Class;
 use Bot::Games::Meta::Method::Command;
 
 sub command {
@@ -25,7 +25,13 @@ Moose::Exporter->setup_import_methods(
 
 sub init_meta {
     shift;
-    return Moose->init_meta(@_, metaclass => 'Bot::Games::Meta::Class');
+    my %options = @_;
+    Moose->init_meta(%options);
+    Moose::Util::MetaRole::apply_metaclass_roles(
+        for_class                 => $options{for_class},
+        attribute_metaclass_roles => ['Bot::Games::Meta::Role::Attribute'],
+    );
+    return $options{for_class}->meta;
 }
 
 1;

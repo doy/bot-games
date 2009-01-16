@@ -1,7 +1,6 @@
 #!/usr/bin/perl
-package Bot::Games::Meta::Attribute;
-use Moose;
-extends 'Moose::Meta::Attribute';
+package Bot::Games::Meta::Role::Attribute;
+use Moose::Role;
 
 use Bot::Games::Meta::Method::Accessor::Command;
 
@@ -25,7 +24,6 @@ after install_accessors => sub {
     $method_meta->pass_args(0);
 };
 
-__PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no Moose;
+no Moose::Role;
 
 1;
