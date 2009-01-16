@@ -18,6 +18,13 @@ around accessor_metaclass => sub {
                           : $self->$orig(@_);
 };
 
+after install_accessors => sub {
+    my $self = shift;
+    return unless $self->command;
+    my $method_meta = $self->get_read_method_ref;
+    $method_meta->pass_args(0);
+};
+
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no Moose;
 
