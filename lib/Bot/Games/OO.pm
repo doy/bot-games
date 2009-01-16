@@ -9,6 +9,7 @@ use Bot::Games::Meta::Method::Command;
 sub command {
     my $class = shift;
     my ($name, $code) = @_;
+    return unless $code; # XXX: fix this later
     my $method_meta = Bot::Games::Meta::Method::Command->wrap(
         $code,
         package_name => $class,

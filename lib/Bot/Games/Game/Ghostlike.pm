@@ -30,8 +30,8 @@ has challenger => (
     isa        => 'Str',
     predicate  => 'has_challenger',
     command    => 1,
-    commands   => ['has_challenger'],
 );
+command 'has_challenger';
 
 has wordlist => (
     is         => 'ro',

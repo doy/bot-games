@@ -22,8 +22,8 @@ has players => (
         count => 'num_players',
     },
     command    => 1,
-    commands   => ['num_players'],
 );
+command 'num_players';
 
 has start_time => (
     is         => 'ro',
