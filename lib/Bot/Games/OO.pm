@@ -2,19 +2,18 @@
 package Bot::Games::OO;
 use Moose ();
 use Moose::Exporter;
-use Moose::Util::MetaRole;
 
 use Bot::Games::Meta::Class;
+use Bot::Games::Meta::Method::Command;
 
 sub command {
     my $class = shift;
     my ($name, $code) = @_;
-    my $method_meta = Moose::Meta::Method->wrap(
+    my $method_meta = Bot::Games::Meta::Method::Command->wrap(
         $code,
         package_name => $class,
         name         => $name,
     );
-    $method_meta->command(1);
     $class->meta->add_method($name, $method_meta);
 }
 
@@ -25,13 +24,7 @@ Moose::Exporter->setup_import_methods(
 
 sub init_meta {
     shift;
-    my %options = @_;
-    Moose->init_meta(%options, metaclass => 'Bot::Games::Meta::Class');
-    Moose::Util::MetaRole::apply_metaclass_roles(
-        for_class => $options{for_class},
-        method_metaclass_roles => ['Bot::Games::Meta::Role::Command'],
-    );
-    return $options{for_class}->meta;
+    return Moose->init_meta(@_, metaclass => 'Bot::Games::Meta::Class');
 }
 
 1;
