@@ -20,13 +20,13 @@ after install_accessors => sub {
     my $self = shift;
     my $accessor_meta = $self->get_read_method_ref;
     if ($self->command) {
-        Moose::Util::apply_all_roles($accessor_meta->meta, 'Bot::Games::Meta::Role::Command');
+        $accessor_meta->command(1);
         # don't let plugins pass arguments to reader methods
         $accessor_meta->pass_args(0);
     }
     for my $method (@{ $self->commands }) {
         my $method_meta = $self->find_method_by_name($method);
-        Moose::Util::apply_all_roles($method_meta->meta, 'Bot::Games::Meta::Role::Command');
+        $method_meta->command(1);
         # don't let plugins pass arguments to generated methods (?)
         $accessor_meta->pass_args(0);
     }

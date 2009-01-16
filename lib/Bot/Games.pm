@@ -46,7 +46,8 @@ sub said {
         my ($action, $arg) = ($1, $2);
         my $method_meta = $game->meta->find_method_by_name($action);
         if (blessed $method_meta
-         && $method_meta->does('Bot::Games::Meta::Role::Command')) {
+         && $method_meta->does('Bot::Games::Meta::Role::Command')
+         && $method_meta->command) {
             $output = $game->$action($arg, {player => $args->{who}});
         }
         else {
