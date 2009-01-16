@@ -99,7 +99,7 @@ sub _format {
     return $to_print;
 }
 
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no Bot::Games::OO;
 
 1;
