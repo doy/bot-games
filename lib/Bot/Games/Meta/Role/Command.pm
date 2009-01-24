@@ -8,12 +8,6 @@ has pass_args => (
     default => 1,
 );
 
-around execute => sub {
-    my $orig = shift;
-    my $self = shift;
-    return $self->pass_args ? $orig->$self(@_) : $orig->$self();
-};
-
 no Moose::Role;
 
 1;
