@@ -54,13 +54,14 @@ sub said {
             else {
                 $output = $game->$action;
             }
+            $output = $self->_format($output);
         }
         else {
             $output = "Unknown command $action for game $game_name";
         }
     }
     else {
-        $output = $game->turn($args->{who}, $action);
+        $output = $self->_format($game->turn($args->{who}, $action));
     }
 
     if (my $end_msg = $game->is_over) {
@@ -71,11 +72,6 @@ sub said {
     }
     return $output;
 }
-around said => sub {
-    my $orig = shift;
-    my $self = shift;
-    return $self->_format($self->$orig(@_));
-};
 
 sub valid_game {
     my $self = shift;
