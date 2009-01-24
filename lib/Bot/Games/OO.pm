@@ -40,6 +40,7 @@ sub init_meta {
     Moose::Util::MetaRole::apply_metaclass_roles(
         for_class                 => $options{for_class},
         attribute_metaclass_roles => ['Bot::Games::Meta::Role::Attribute'],
+        metaclass_roles           => ['Bot::Games::Meta::Role::Class'],
     );
     return $options{for_class}->meta;
 }
