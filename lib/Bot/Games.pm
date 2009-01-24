@@ -4,7 +4,6 @@ use Bot::Games::OO;
 use Module::Pluggable
     search_path => 'Bot::Games::Game',
     except      => ['Bot::Games::Game::Ghostlike'],
-    require     => 1,
     sub_name    => 'games';
 extends 'Bot::BasicBot';
 
@@ -43,7 +42,9 @@ sub said {
     my $output;
     my $game = $self->active_games->{$game_name};
     if (!defined $game || !defined $action) {
-        $game = $self->game_package($game_name)->new;
+        my $game_package = $self->game_package($game_name);
+        eval "require $game_package";
+        $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
         return $self->_format($game->init($args->{who}))
             if $game->can('init');
