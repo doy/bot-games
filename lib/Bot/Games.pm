@@ -100,7 +100,7 @@ sub _format {
         $to_print = join ', ', @$to_print;
     }
     elsif (!$to_print) {
-        $to_print = '0';
+        $to_print = 'false';
     }
     return $to_print;
 }
