@@ -21,6 +21,15 @@ has active_games => (
     default => sub { {} },
 );
 
+sub _get_command {
+    my ($game, $action) = @_;
+    my $method_meta = $game->meta->find_method_by_name($action);
+    return $method_meta
+        if blessed($method_meta)
+        && $method_meta->meta->can('does_role')
+        && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command');
+}
+
 sub said {
     my $self = shift;
     my ($args) = @_;
@@ -44,15 +53,12 @@ sub said {
 
     if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
-        my $method_meta = $game->meta->find_method_by_name($action);
-        if (blessed $method_meta
-         && $method_meta->meta->can('does_role')
-         && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command')) {
+        if (my $method_meta = _get_command($game, $action)) {
             if ($method_meta->pass_args) {
-                $output = $game->$action($arg, {player => $args->{who}});
+                $output = $method_meta->execute($game, $arg, {player => $args->{who}});
             }
             else {
-                $output = $game->$action;
+                $output = $method_meta->execute($game);
             }
             $output = $self->_format($output);
         }
