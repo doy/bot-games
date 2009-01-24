@@ -2,8 +2,6 @@
 package Bot::Games::Meta::Role::Attribute;
 use Moose::Role;
 
-use Bot::Games::Meta::Method::Accessor::Command;
-
 has command => (
     is      => 'rw',
     isa     => 'Bool',
@@ -13,8 +11,13 @@ has command => (
 around accessor_metaclass => sub {
     my $orig = shift;
     my $self = shift;
-    return $self->command ? 'Bot::Games::Meta::Method::Accessor::Command'
-                          : $self->$orig(@_);
+    my $metaclass = $self->$orig(@_);
+    return $metaclass unless $self->command;
+    return Moose::Meta::Class->create_anon_class(
+        superclasses => [$metaclass],
+        roles        => ['Bot::Games::Meta::Role::Command'],
+        cache        => 1,
+    )->name;
 };
 
 after install_accessors => sub {
