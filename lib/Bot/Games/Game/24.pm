@@ -27,7 +27,7 @@ augment turn => sub {
     my $self = shift;
     my ($player, $expr) = @_;
 
-    my $numbers = join ',', sort split(/[-\+\*\/\(\)]+/, $expr);
+    my $numbers = join ',', sort grep { $_ } split(/[-\+\*\/\(\)]+/, $expr);
     my $solution = join ',', sort split(' ', $self->state);
     return "invalid numbers" unless $numbers eq $solution;
 
