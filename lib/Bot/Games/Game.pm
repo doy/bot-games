@@ -44,7 +44,7 @@ has is_over => (
     command    => 1,
 );
 
-sub turn { "Games must provide a turn method" }
+sub turn { inner() || "Games must provide a turn method" }
 after turn => sub { shift->last_turn_time(DateTime->now) };
 
 __PACKAGE__->meta->make_immutable;

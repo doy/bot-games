@@ -23,7 +23,7 @@ sub init {
     return $self->generate_24;
 }
 
-sub turn {
+augment turn => sub {
     my $self = shift;
     my ($player, $expr) = @_;
 

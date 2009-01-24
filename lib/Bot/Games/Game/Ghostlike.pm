@@ -51,7 +51,7 @@ around state => sub {
     return $self->$orig($state);
 };
 
-sub turn {
+augment turn => sub {
     my $self = shift;
     my ($player, $state) = @_;
 
@@ -71,7 +71,7 @@ sub turn {
 
     $self->current_player($self->next_player);
     return $self->state($state);
-}
+};
 
 command challenge => sub {
     my $self = shift;
