@@ -7,25 +7,24 @@ use Moose::Util::MetaRole;
 sub command {
     my $class = shift;
     my ($name, $code) = @_;
-    my $superclass = 'Moose::Meta::Method';
-    if (!$code) {
-        my $method_meta = $class->meta->remove_method($name);
-        die "Can't set $name as a command, it doesn't exist"
-            unless blessed $method_meta;
-        $superclass = blessed $method_meta;
-        $code = $method_meta->body;
-    }
+    my $superclass = Moose::blessed($class->meta->get_method($name))
+                  || 'Moose::Meta::Method';
     my $method_metaclass = Moose::Meta::Class->create_anon_class(
         superclasses => [$superclass],
         roles        => ['Bot::Games::Meta::Role::Command'],
         cache        => 1,
-    )->name;
-    my $method_meta = $method_metaclass->wrap(
-        $code,
-        package_name => $class,
-        name         => $name,
     );
-    $class->meta->add_method($name, $method_meta);
+    if (my $method_meta = $class->meta->get_method($name)) {
+        $method_metaclass->rebless_instance($method_meta);
+    }
+    else {
+        my $method_meta = $method_metaclass->name->wrap(
+            $code,
+            package_name => $class,
+            name         => $name,
+        );
+        $class->meta->add_method($name, $method_meta);
+    }
 }
 
 Moose::Exporter->setup_import_methods(
