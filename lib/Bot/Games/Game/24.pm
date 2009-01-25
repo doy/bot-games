@@ -93,6 +93,7 @@ sub evaluate {
     my $self = shift;
     my ($expr) = @_;
     return 0 unless $expr =~ /^[-\d\+\*\/\(\)]+$/;
+    # XXX: ick ick ick
     return eval $expr;
 }
 
