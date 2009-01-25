@@ -62,7 +62,6 @@ sub said {
         eval "require $game_package";
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
-        $self->done_init->{$game_name} = 0;
     }
     if (!$self->done_init->{$game_name}
      && (!defined($action) || $action !~ /^-/)) {
@@ -97,7 +96,10 @@ sub said {
         $self->$say($turn) if $turn;
     }
 
-    delete $self->active_games->{$game_name} if ($game->is_over);
+    if ($game->is_over) {
+        delete $self->active_games->{$game_name};
+        delete $self->done_init->{$game_name};
+    }
 
     return;
 }
