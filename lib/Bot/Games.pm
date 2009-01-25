@@ -27,11 +27,11 @@ has done_init => (
     default => sub { {} },
 );
 
-sub said {
+my $say;
+
+sub BUILD {
     my $self = shift;
-    my ($args) = @_;
-    my $prefix = $self->prefix;
-    my $say = sub {
+    $say = sub {
         shift;
         return $self->say(%$args, body => $self->_format(@_)) if @_ == 1;
         my %overrides = @_;
@@ -39,6 +39,14 @@ sub said {
             if exists $overrides{body};
         return $self->say(%$args, %overrides);
     };
+    require Bot::Games::Game;
+    _add_method('Bot::Games::Game', say => $say);
+}
+
+sub said {
+    my $self = shift;
+    my ($args) = @_;
+    my $prefix = $self->prefix;
 
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
@@ -50,7 +58,6 @@ sub said {
     if (!defined $game) {
         my $game_package = $self->game_package($game_name);
         eval "require $game_package";
-        _add_method($game_package, say => $say);
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
         $self->done_init->{$game_name} = 0;
