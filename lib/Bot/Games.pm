@@ -40,7 +40,11 @@ sub said {
     my $self = shift;
     my ($args) = @_;
     my $prefix = $self->prefix;
-    my $say = sub { shift; $self->say(%$args, body => $self->_format(@_)) };
+    my $say = sub {
+        shift;
+        return $self->say(%$args, body => $self->_format(@_)) if @_ == 1;
+        return $self->say(%$args, @_);
+    };
 
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
