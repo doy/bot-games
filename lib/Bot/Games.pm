@@ -27,30 +27,6 @@ has done_init => (
     default => sub { {} },
 );
 
-sub _get_command {
-    my ($game, $action) = @_;
-    my $method_meta = $game->meta->find_method_by_name($action);
-    return $method_meta
-        if blessed($method_meta)
-        && $method_meta->meta->can('does_role')
-        && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command');
-}
-
-sub _add_method {
-    my $class = shift;
-    my ($name, $meth) = @_;
-    return if ($class->meta->get_method($name));
-    if ($class->meta->is_immutable) {
-        my %immutable_opts = %{ $class->meta->get_immutable_options };
-        $class->meta->make_mutable;
-        $class->meta->add_method($name => $meth);
-        $class->meta->make_immutable(%immutable_opts);
-    }
-    else {
-        $class->meta->add_method($name => $meth);
-    }
-}
-
 sub said {
     my $self = shift;
     my ($args) = @_;
@@ -144,6 +120,30 @@ sub _format {
         $to_print = 'false';
     }
     return $to_print;
+}
+
+sub _get_command {
+    my ($game, $action) = @_;
+    my $method_meta = $game->meta->find_method_by_name($action);
+    return $method_meta
+        if blessed($method_meta)
+        && $method_meta->meta->can('does_role')
+        && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command');
+}
+
+sub _add_method {
+    my $class = shift;
+    my ($name, $meth) = @_;
+    return if ($class->meta->get_method($name));
+    if ($class->meta->is_immutable) {
+        my %immutable_opts = %{ $class->meta->get_immutable_options };
+        $class->meta->make_mutable;
+        $class->meta->add_method($name => $meth);
+        $class->meta->make_immutable(%immutable_opts);
+    }
+    else {
+        $class->meta->add_method($name => $meth);
+    }
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
