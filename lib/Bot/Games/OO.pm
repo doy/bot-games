@@ -7,18 +7,18 @@ use Moose::Util::MetaRole;
 sub command {
     my $class = shift;
     my ($name, $code) = @_;
-    my $superclass = Moose::blessed($class->meta->get_method($name))
-                  || 'Moose::Meta::Method';
+    my $method_meta = $class->meta->get_method($name);
+    my $superclass = Moose::blessed($method_meta) || 'Moose::Meta::Method';
     my $method_metaclass = Moose::Meta::Class->create_anon_class(
         superclasses => [$superclass],
         roles        => ['Bot::Games::Meta::Role::Command'],
         cache        => 1,
     );
-    if (my $method_meta = $class->meta->get_method($name)) {
+    if ($method_meta) {
         $method_metaclass->rebless_instance($method_meta);
     }
     else {
-        my $method_meta = $method_metaclass->name->wrap(
+        $method_meta = $method_metaclass->name->wrap(
             $code,
             package_name => $class,
             name         => $name,
