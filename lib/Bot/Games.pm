@@ -5,7 +5,8 @@ use Module::Pluggable
     search_path => 'Bot::Games::Game',
     except      => ['Bot::Games::Game::Ghostlike'],
     sub_name    => 'games';
-extends 'Bot::BasicBot';
+extends 'Bot::BasicBot', 'Moose::Object';
+after new => sub { shift->BUILDALL };
 
 has prefix => (
     is       => 'rw',
