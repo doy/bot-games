@@ -97,7 +97,7 @@ sub said {
                 return;
             }
             $self->$say($method_meta->execute($game, $arg,
-                                         {player => $args->{who}}));
+                                              {player => $args->{who}}));
         }
         else {
             $self->$say("Unknown command $action for game $game_name");
