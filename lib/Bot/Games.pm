@@ -52,6 +52,7 @@ sub said {
     if (!defined $game) {
         my $game_package = $self->game_package($game_name);
         eval "require $game_package";
+        $game_package->meta->add_method(say => $say);
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
         $self->done_init->{$game_name} = 0;
