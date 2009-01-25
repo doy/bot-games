@@ -40,7 +40,7 @@ sub said {
     my $self = shift;
     my ($args) = @_;
     my $prefix = $self->prefix;
-    my $say = sub { $self->say(%$args, body => $self->_format(@_)) };
+    my $say = sub { shift; $self->say(%$args, body => $self->_format(@_)) };
 
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
@@ -58,7 +58,7 @@ sub said {
     }
     if (!$self->done_init->{$game_name}
      && (!defined($action) || $action !~ /^-/)) {
-        $say->($game->init($args->{who})) if $game->can('init');
+        $self->$say($game->init($args->{who})) if $game->can('init');
         $self->done_init->{$game_name} = 1;
     }
 
@@ -69,11 +69,11 @@ sub said {
         # XXX: maybe the meta stuff should get pushed out into the plugins
         # themselves, and this should become $game->meta->get_command or so?
         if (my $method_meta = _get_command($game, $action)) {
-            $say->($method_meta->execute($game, $arg,
+            $self->$say($method_meta->execute($game, $arg,
                                          {player => $args->{who}}));
         }
         else {
-            $say->("Unknown command $action for game $game_name");
+            $self->$say("Unknown command $action for game $game_name");
         }
     }
     else {
@@ -81,11 +81,11 @@ sub said {
         # handle that properly either, so
         # also, this should probably be factored into $say, i think?
         my $turn = $game->turn($args->{who}, $action);
-        $say->($turn) if $turn;
+        $self->$say($turn) if $turn;
     }
 
     if (my $end_msg = $game->is_over) {
-        $say->($end_msg);
+        $self->$say($end_msg);
         delete $self->active_games->{$game_name};
     }
     return;
