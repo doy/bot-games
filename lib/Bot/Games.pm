@@ -43,7 +43,10 @@ sub said {
     my $say = sub {
         shift;
         return $self->say(%$args, body => $self->_format(@_)) if @_ == 1;
-        return $self->say(%$args, @_);
+        my %overrides = @_;
+        $overrides{body} = $self->_format($overrides{body})
+            if exists $overrides{body};
+        return $self->say(%$args, %overrides);
     };
 
     return if $args->{channel} eq 'msg';
