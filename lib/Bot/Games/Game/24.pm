@@ -39,7 +39,7 @@ augment turn => sub {
         return '';
     }
     else {
-        return $eval;
+        return "$expr = " . (defined($eval) ? $eval : 'undef');
     }
 };
 
