@@ -36,7 +36,7 @@ augment turn => sub {
     my $eval = $self->evaluate($expr);
     if ($eval == 24) {
         $self->is_over("$player wins!");
-        return;
+        return '';
     }
     else {
         return $eval;
