@@ -29,16 +29,17 @@ has done_init => (
 );
 
 my $say;
+my $say_args;
 
 sub BUILD {
     my $self = shift;
     $say = sub {
         shift;
-        return $self->say(%$args, body => $self->_format(@_)) if @_ == 1;
+        return $self->say(%$say_args, body => $self->_format(@_)) if @_ == 1;
         my %overrides = @_;
         $overrides{body} = $self->_format($overrides{body})
             if exists $overrides{body};
-        return $self->say(%$args, %overrides);
+        return $self->say(%$say_args, %overrides);
     };
     require Bot::Games::Game;
     Bot::Games::Game->meta->add_method(say => $say);
@@ -49,6 +50,7 @@ sub said {
     my $self = shift;
     my ($args) = @_;
     my $prefix = $self->prefix;
+    $say_args = $args;
 
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
