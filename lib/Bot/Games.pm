@@ -56,7 +56,8 @@ sub said {
         $self->active_games->{$game_name} = $game;
         $self->done_init->{$game_name} = 0;
     }
-    if (!$self->done_init->{$game_name} && $action !~ /^-/) {
+    if (!$self->done_init->{$game_name}
+     && (!defined($action) || $action !~ /^-/)) {
         $say->($game->init($args->{who})) if $game->can('init');
         $self->done_init->{$game_name} = 1;
     }
