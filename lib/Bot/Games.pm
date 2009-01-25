@@ -39,10 +39,7 @@ sub _get_command {
 sub _add_method {
     my $class = shift;
     my ($name, $meth) = @_;
-    if ($class->meta->get_method($name)) {
-        warn "Not overriding method $name in $class";
-        return;
-    }
+    return if ($class->meta->get_method($name));
     if ($class->meta->is_immutable) {
         my %immutable_opts = %{ $class->meta->get_immutable_options };
         $class->meta->make_mutable;
