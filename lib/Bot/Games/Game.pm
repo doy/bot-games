@@ -52,7 +52,8 @@ sub turn {
 }
 after turn => sub { shift->last_turn_time(DateTime->now) };
 
-__PACKAGE__->meta->make_immutable;
+# this happens in Bot::Games, since we want to add the say method from there
+#__PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
 no MooseX::AttributeHelpers;
 

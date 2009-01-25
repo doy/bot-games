@@ -40,7 +40,8 @@ sub BUILD {
         return $self->say(%$args, %overrides);
     };
     require Bot::Games::Game;
-    _add_method('Bot::Games::Game', say => $say);
+    Bot::Games::Game->meta->add_method(say => $say);
+    Bot::Games::Game->meta->make_immutable;
 }
 
 sub said {
@@ -135,21 +136,6 @@ sub _get_command {
         if blessed($method_meta)
         && $method_meta->meta->can('does_role')
         && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command');
-}
-
-sub _add_method {
-    my $class = shift;
-    my ($name, $meth) = @_;
-    return if ($class->meta->get_method($name));
-    if ($class->meta->is_immutable) {
-        my %immutable_opts = %{ $class->meta->get_immutable_options };
-        $class->meta->make_mutable;
-        $class->meta->add_method($name => $meth);
-        $class->meta->make_immutable(%immutable_opts);
-    }
-    else {
-        $class->meta->add_method($name => $meth);
-    }
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
