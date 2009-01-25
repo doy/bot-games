@@ -40,6 +40,7 @@ sub said {
     my $self = shift;
     my ($args) = @_;
     my $prefix = $self->prefix;
+    my $say = sub { $self->say(%$args, body => $self->_format(@_)) };
 
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
@@ -56,8 +57,7 @@ sub said {
         $self->done_init->{$game_name} = 0;
     }
     if (!$self->done_init->{$game_name} && $action !~ /^-/) {
-        $self->say(%$args, body => $self->_format($game->init($args->{who})))
-            if $game->can('init');
+        $say->($game->init($args->{who})) if $game->can('init');
         $self->done_init->{$game_name} = 1;
     }
 
@@ -69,28 +69,26 @@ sub said {
         # themselves, and this should become $game->meta->get_command or so?
         if (my $method_meta = _get_command($game, $action)) {
             if ($method_meta->pass_args) {
-                $output = $method_meta->execute($game, $arg, {player => $args->{who}});
+                $say->($method_meta->execute($game, $arg,
+                                             {player => $args->{who}}));
             }
             else {
-                $output = $method_meta->execute($game);
+                $say->($method_meta->execute($game));
             }
-            $output = $self->_format($output);
         }
         else {
-            $output = "Unknown command $action for game $game_name";
+            $say->("Unknown command $action for game $game_name");
         }
     }
     else {
-        $output = $self->_format($game->turn($args->{who}, $action));
+        $say->($game->turn($args->{who}, $action));
     }
 
     if (my $end_msg = $game->is_over) {
-        $self->say(%$args, body => $self->_format($output))
-            if defined $output;
-        $output = $end_msg;
+        $say->($end_msg);
         delete $self->active_games->{$game_name};
     }
-    return $output;
+    return;
 }
 
 sub valid_game {
