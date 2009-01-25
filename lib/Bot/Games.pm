@@ -20,6 +20,13 @@ has active_games => (
     default => sub { {} },
 );
 
+has done_init => (
+    is      => 'ro',
+    isa     => 'HashRef[Bool]',
+    lazy    => 1,
+    default => sub { {} },
+);
+
 sub _get_command {
     my ($game, $action) = @_;
     my $method_meta = $game->meta->find_method_by_name($action);
@@ -41,13 +48,17 @@ sub said {
 
     my $output;
     my $game = $self->active_games->{$game_name};
-    if (!defined $game || !defined $action) {
+    if (!defined $game) {
         my $game_package = $self->game_package($game_name);
         eval "require $game_package";
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
-        return $self->_format($game->init($args->{who}))
+        $self->done_init->{$game_name} = 0;
+    }
+    if (!$self->done_init->{$game_name} && $action !~ /^-/) {
+        $self->say(%$args, body => $self->_format($game->init($args->{who})))
             if $game->can('init');
+        $self->done_init->{$game_name} = 1;
     }
 
     return unless defined $action;
