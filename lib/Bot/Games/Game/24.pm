@@ -3,6 +3,8 @@ package Bot::Games::Game::24;
 use Bot::Games::OO;
 extends 'Bot::Games::Game';
 
+use List::Util qw/shuffle/;
+
 has '+help' => (
     default => '24 help',
 );
@@ -83,7 +85,7 @@ sub generate_24 {
     pop @nums;
     shift @nums;
     $self->solution(join '', @nums);
-    $self->state(join ' ', (grep { /\d/ } @nums));
+    $self->state(join ' ', shuffle(grep { /\d/ } @nums));
     return $self->state;
 }
 
