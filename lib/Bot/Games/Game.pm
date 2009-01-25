@@ -9,6 +9,7 @@ has help => (
     isa        => 'Str',
     default    => 'This game doesn\'t have any help text!',
     command    => 1,
+    needs_init => 0,
 );
 
 has players => (
