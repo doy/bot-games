@@ -82,7 +82,11 @@ sub said {
         }
     }
     else {
-        $say->($game->turn($args->{who}, $action));
+        # XXX: need better handling for "0", but B::BB doesn't currently
+        # handle that properly either, so
+        # also, this should probably be factored into $say, i think?
+        my $turn = $game->turn($args->{who}, $action);
+        $say->($turn) if $turn;
     }
 
     if (my $end_msg = $game->is_over) {
