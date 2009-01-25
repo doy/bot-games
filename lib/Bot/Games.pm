@@ -87,10 +87,8 @@ sub said {
         $self->$say($turn) if $turn;
     }
 
-    if (my $end_msg = $game->is_over) {
-        $self->$say($end_msg);
-        delete $self->active_games->{$game_name};
-    }
+    delete $self->active_games->{$game_name} if ($game->is_over);
+
     return;
 }
 
