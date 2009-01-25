@@ -36,6 +36,24 @@ sub _get_command {
         && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command');
 }
 
+sub _add_method {
+    my $class = shift;
+    my ($name, $meth) = @_;
+    if ($class->meta->get_method($name)) {
+        warn "Not overriding method $name in $class";
+        return;
+    }
+    if ($class->meta->is_immutable) {
+        my %immutable_opts = %{ $class->meta->get_immutable_options };
+        $class->meta->make_mutable;
+        $class->meta->add_method($name => $meth);
+        $class->meta->make_immutable(%immutable_opts);
+    }
+    else {
+        $class->meta->add_method($name => $meth);
+    }
+}
+
 sub said {
     my $self = shift;
     my ($args) = @_;
@@ -59,7 +77,7 @@ sub said {
     if (!defined $game) {
         my $game_package = $self->game_package($game_name);
         eval "require $game_package";
-        $game_package->meta->add_method(say => $say);
+        _add_method($game_package, say => $say);
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
         $self->done_init->{$game_name} = 0;
