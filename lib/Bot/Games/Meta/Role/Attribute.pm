@@ -8,6 +8,12 @@ has command => (
     default => 0,
 );
 
+has needs_init => (
+    is      => 'rw',
+    isa     => 'Bool',
+    default => 0,
+);
+
 around accessor_metaclass => sub {
     my $orig = shift;
     my $self = shift;
@@ -25,6 +31,7 @@ after install_accessors => sub {
     return unless $self->command;
     my $method_meta = $self->get_read_method_ref;
     $method_meta->pass_args(0);
+    $method_meta->needs_init($self->needs_init);
 };
 
 no Moose::Role;
