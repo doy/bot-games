@@ -6,7 +6,7 @@ use Moose::Util::MetaRole;
 
 sub command {
     my $class = shift;
-    my ($name, $code) = @_;
+    my ($name, $code, %args) = @_;
     my $method_meta = $class->meta->get_method($name);
     my $superclass = Moose::blessed($method_meta) || 'Moose::Meta::Method';
     my $method_metaclass = Moose::Meta::Class->create_anon_class(
@@ -24,6 +24,9 @@ sub command {
             name         => $name,
         );
         $class->meta->add_method($name, $method_meta);
+    }
+    for my $attr (Bot::Games::Meta::Role::Command->meta->get_attribute_list) {
+        $method_meta->$attr($args{$attr}) if exists $args{$attr};
     }
 }
 
