@@ -65,6 +65,8 @@ sub said {
 
     if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
+        # XXX: maybe the meta stuff should get pushed out into the plugins
+        # themselves, and this should become $game->meta->get_command or so?
         if (my $method_meta = _get_command($game, $action)) {
             if ($method_meta->pass_args) {
                 $output = $method_meta->execute($game, $arg, {player => $args->{who}});
