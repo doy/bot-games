@@ -77,6 +77,7 @@ sub said {
         }
         else {
             $self->$say("Unknown command $action for game $game_name");
+            return;
         }
     }
     else {
