@@ -70,7 +70,7 @@ sub said {
 
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
-    my ($game_name, $action) = ($1, $2);
+    my ($game_name, $action) = (lc($1), $2);
     return $self->game_list if $game_name eq 'games';
     if ($game_name eq 'help') {
         $game_name = $action;
