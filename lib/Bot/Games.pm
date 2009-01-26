@@ -34,6 +34,15 @@ has done_init => (
     default => sub { {} },
 );
 
+has alias => (
+    is      => 'ro',
+    isa     => 'HashRef[Str]',
+    default => sub { {
+        sg => 'superghost',
+        xg => 'xghost',
+    } },
+);
+
 my $say;
 my $say_args;
 
@@ -67,7 +76,8 @@ sub said {
         $game_name =~ s/^-//;
         $action = '-help';
     }
-    return unless $self->valid_game($game_name);
+    $game_name = $self->find_game($game_name);
+    return unless $game_name;
 
     my $output;
     my $game = $self->active_games->{$game_name};
@@ -135,6 +145,18 @@ sub game_list {
     my $self = shift;
     return join ' ', sort map { s/Bot::Games::Game:://; $self->prefix . lc }
                               $self->games;
+}
+
+sub find_game {
+    my $self = shift;
+    my ($abbrev) = @_;
+    return $abbrev if $self->valid_game($abbrev);
+    return $self->alias->{$abbrev}
+        if exists $self->alias->{$abbrev}
+        && $self->valid_game($self->alias->{$abbrev});
+    my @possibilities = grep { /^$abbrev/ } $self->game_list;
+    return $possibilities[0] if @possibilities == 1;
+    return;
 }
 
 sub _format {
