@@ -60,7 +60,7 @@ command cmdlist => sub {
             if $method->meta->can('does_role')
             && $method->meta->does_role('Bot::Games::Meta::Role::Command');
     }
-    return sort map { '-' . $_ } @commands;
+    return join ' ', sort map { '-' . $_ } @commands;
 }, needs_init => 0;
 
 # this happens in Bot::Games, since we want to add the say method from there
