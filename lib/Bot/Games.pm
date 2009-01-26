@@ -6,7 +6,13 @@ use Module::Pluggable
     except      => ['Bot::Games::Game::Ghostlike'],
     sub_name    => 'games';
 extends 'Bot::BasicBot', 'Moose::Object';
-after new => sub { shift->BUILDALL };
+around new => sub {
+    my $orig = shift;
+    my $class = shift;
+    my $self = $class->$orig(@_);
+    $self->BUILDALL({@_});
+    return $self;
+};
 
 has prefix => (
     is       => 'rw',
