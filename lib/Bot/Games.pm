@@ -37,6 +37,7 @@ has done_init => (
 has alias => (
     is      => 'ro',
     isa     => 'HashRef[Str]',
+    lazy    => 1,
     default => sub { {
         sg => 'superghost',
         xg => 'xghost',
