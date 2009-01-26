@@ -61,6 +61,7 @@ sub said {
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
     my ($game_name, $action) = ($1, $2);
+    return $self->game_list if $game_name eq 'games';
     return unless $self->valid_game($game_name);
 
     my $output;
@@ -123,6 +124,12 @@ sub game_package {
     my $self = shift;
     my ($name) = @_;
     return 'Bot::Games::Game::' . ucfirst($name);
+}
+
+sub game_list {
+    my $self = shift;
+    return join ' ', map { s/Bot::Games::Game:://; $self->prefix . lc }
+                         $self->games;
 }
 
 sub _format {
