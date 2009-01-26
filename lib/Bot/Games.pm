@@ -71,7 +71,8 @@ sub said {
     return if $args->{channel} eq 'msg';
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
     my ($game_name, $action) = (lc($1), $2);
-    return $self->game_list if $game_name eq 'games';
+    return join ' ', map { $self->prefix . $_} $self->game_list
+        if $game_name eq 'games';
     if ($game_name eq 'help') {
         $game_name = $action;
         $game_name =~ s/^-//;
@@ -144,8 +145,7 @@ sub game_package {
 
 sub game_list {
     my $self = shift;
-    return join ' ', sort map { s/Bot::Games::Game:://; $self->prefix . lc }
-                              $self->games;
+    return sort map { s/Bot::Games::Game:://; lc } $self->games;
 }
 
 sub find_game {
