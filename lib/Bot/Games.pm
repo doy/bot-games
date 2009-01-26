@@ -62,6 +62,11 @@ sub said {
     return unless $args->{body} =~ /^$prefix(\w+)(?:\s+(.*))?/;
     my ($game_name, $action) = ($1, $2);
     return $self->game_list if $game_name eq 'games';
+    if ($game_name eq 'help') {
+        $game_name = $action;
+        $game_name =~ s/^-//;
+        $action = '-help';
+    }
     return unless $self->valid_game($game_name);
 
     my $output;
