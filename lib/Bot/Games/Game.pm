@@ -52,6 +52,17 @@ sub turn {
 }
 after turn => sub { shift->last_turn_time(DateTime->now) };
 
+sub allow_new_player { 1 }
+around add_player => sub {
+    my $orig = shift;
+    my $self = shift;
+    if ($self->allow_new_player) {
+        $self->$orig(@_);
+        return 1;
+    }
+    return;
+};
+
 command cmdlist => sub {
     my $self = shift;
     my @commands;
