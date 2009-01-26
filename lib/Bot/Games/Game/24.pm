@@ -4,6 +4,7 @@ use Bot::Games::OO;
 extends 'Bot::Games::Game';
 
 use List::Util qw/shuffle/;
+use Math::Expression::Evaluator;
 
 has '+help' => (
     default => '24 help',
@@ -34,7 +35,7 @@ augment turn => sub {
     return "invalid numbers" unless $numbers eq $solution;
 
     my $eval = $self->evaluate($expr);
-    if ($eval == 24) {
+    if (defined($eval) && $eval == 24) {
         $self->is_over(1);
         return "$player wins!";
     }
@@ -89,9 +90,8 @@ sub generate_24 {
 sub evaluate {
     my $self = shift;
     my ($expr) = @_;
-    return 0 unless $expr =~ /^[-\d\+\*\/\(\)]+$/;
-    # XXX: ick ick ick
-    return eval $expr;
+    return undef unless $expr =~ /^[-\d\+\*\/\(\)]+$/;
+    return eval { Math::Expression::Evaluator->new->parse($expr)->val };
 }
 
 __PACKAGE__->meta->make_immutable;
