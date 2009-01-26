@@ -133,8 +133,8 @@ sub game_package {
 
 sub game_list {
     my $self = shift;
-    return join ' ', map { s/Bot::Games::Game:://; $self->prefix . lc }
-                         $self->games;
+    return join ' ', sort map { s/Bot::Games::Game:://; $self->prefix . lc }
+                              $self->games;
 }
 
 sub _format {
