@@ -52,6 +52,17 @@ sub turn {
 }
 after turn => sub { shift->last_turn_time(DateTime->now) };
 
+command cmdlist => sub {
+    my $self = shift;
+    my @commands;
+    for my $method ($self->meta->get_all_methods) {
+        push @commands, $method->name
+            if $method->meta->can('does_role')
+            && $method->meta->does_role('Bot::Games::Meta::Role::Command');
+    }
+    return join ' ', map { '-' . $_ } @commands;
+}, needs_init => 0;
+
 # this happens in Bot::Games, since we want to add the say method from there
 #__PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
