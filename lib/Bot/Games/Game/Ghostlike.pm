@@ -86,12 +86,12 @@ command challenge => sub {
             return "$word is not valid for state " . $self->state . "!";
         }
         elsif ($self->valid_word($word)) {
-            $self->is_over("$word is a word! $challenger wins!");
-            return;
+            $self->is_over(1);
+            return "$word is a word! $challenger wins!";
         }
         else {
-            $self->is_over("$word is not a word. $challenger loses!");
-            return;
+            $self->is_over(1);
+            return "$word is not a word. $challenger loses!";
         }
     }
     else {

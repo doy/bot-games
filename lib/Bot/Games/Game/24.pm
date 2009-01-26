@@ -35,8 +35,8 @@ augment turn => sub {
 
     my $eval = $self->evaluate($expr);
     if ($eval == 24) {
-        $self->is_over("$player wins!");
-        return '';
+        $self->is_over(1);
+        return "$player wins!";
     }
     else {
         return "$expr = " . (defined($eval) ? $eval : 'undef');
@@ -45,8 +45,8 @@ augment turn => sub {
 
 command give_up => sub {
     my $self = shift;
-    $self->is_over($self->solution);
-    return;
+    $self->is_over(1);
+    return $self->solution;
 };
 
 my @ops = ('+', '-', '*', '/');

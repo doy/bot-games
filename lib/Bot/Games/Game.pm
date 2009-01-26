@@ -41,7 +41,7 @@ has last_turn_time => (
 
 has is_over => (
     is         => 'rw',
-    isa        => 'Str',
+    isa        => 'Bool',
     command    => 1,
 );
 
