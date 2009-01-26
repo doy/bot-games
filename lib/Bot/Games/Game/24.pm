@@ -71,10 +71,7 @@ sub generate_24 {
         }
         elsif ($op eq '*') {
             $n2 = $val / $n1;
-            while ($n2 != int($n2)) {
-                $n1 = 2 + int rand($val - 3);
-                $n2 = $val / $n1;
-            }
+            redo if ($n2 != int($n2));
         }
         elsif ($op eq '/') {
             $n1 *= $val;
