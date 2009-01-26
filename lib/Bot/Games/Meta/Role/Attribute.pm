@@ -11,7 +11,7 @@ has command => (
 has needs_init => (
     is      => 'rw',
     isa     => 'Bool',
-    default => 0,
+    default => 1,
 );
 
 around accessor_metaclass => sub {
