@@ -17,7 +17,7 @@ has needs_init => (
 around execute => sub {
     my $orig = shift;
     my $self = shift;
-    return $self->pass_args ? $self->$orig(@_) : $self->$orig();
+    return $self->pass_args ? $self->$orig(@_) : $self->$orig($_[0]);
 };
 
 no Moose::Role;
