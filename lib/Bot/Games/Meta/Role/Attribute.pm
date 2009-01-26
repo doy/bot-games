@@ -14,6 +14,13 @@ has needs_init => (
     default => 1,
 );
 
+before _process_options => sub {
+    my $self = shift;
+    my ($name, $options) = @_;
+    warn "needs_init is useless for attributes without command"
+        if exists($options->{needs_init}) && !$options->{command};
+};
+
 around accessor_metaclass => sub {
     my $orig = shift;
     my $self = shift;
