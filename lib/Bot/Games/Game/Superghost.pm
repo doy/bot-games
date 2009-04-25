@@ -14,6 +14,13 @@ command valid_move => sub {
         || uc(substr($move, 1))     eq $self->state;
 };
 
+command valid_word_from_state => sub {
+    my $self = shift;
+    my ($word) = @_;
+    my $state = $self->state;
+    return uc($word) =~ /\Q$state\E/;
+};
+
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
 

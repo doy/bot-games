@@ -15,6 +15,12 @@ command valid_move => sub {
         && length($self->state) + 1 == length($move);
 };
 
+command valid_word_from_state => sub {
+    my $self = shift;
+    my ($word) = @_;
+    return is_substring($self->state, uc($move));
+};
+
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
 

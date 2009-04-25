@@ -93,11 +93,11 @@ command challenge => sub {
         }
         elsif ($self->valid_word($word)) {
             $self->is_over(1);
-            return "$word is a word! $challenger wins!";
+            return "$word is a word! $challenger loses!";
         }
         else {
             $self->is_over(1);
-            return "$word is not a word. $challenger loses!";
+            return "$word is not a word. $challenger wins!";
         }
     }
     else {
@@ -128,7 +128,8 @@ command valid_move => sub {
 command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
-    return uc($word) eq $self->state;
+    my $word_prefix = substr($word, 0, length($self->state));
+    return uc($word_prefix) eq $self->state;
 };
 
 command give_up => sub {
