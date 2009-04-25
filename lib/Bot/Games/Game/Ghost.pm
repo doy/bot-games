@@ -15,13 +15,6 @@ has current_player => (
     command    => 1,
 );
 
-has players_fixed => (
-    is         => 'rw',
-    isa        => 'Bool',
-    default    => 0,
-    command    => 1,
-);
-
 has state => (
     is         => 'rw',
     isa        => 'Str',
@@ -59,11 +52,10 @@ augment turn => sub {
     my $self = shift;
     my ($player, $state) = @_;
 
-    if ($self->current_player_index == 0
-     && !$self->players_fixed
-     && !grep { $player eq $_ } $self->players) {
-        $self->add_player($player);
-        $self->current_player($player);
+    if (!grep { $player eq $_ } $self->players) {
+        if ($self->add_player($player)) {
+            $self->current_player($player);
+        }
     }
 
     return "It's " . $self->current_player . "'s turn!"
@@ -76,6 +68,16 @@ augment turn => sub {
     $self->current_player($self->next_player);
     return $self->state($state);
 };
+
+sub allow_new_player {
+    my $self = shift;
+
+    if ($self->current_player_index != 0 && $self->num_players > 1) {
+        $self->say("No more players can join the current game");
+        return;
+    }
+    return 1;
+}
 
 command challenge => sub {
     my $self = shift;
