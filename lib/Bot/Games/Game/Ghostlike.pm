@@ -121,6 +121,12 @@ command valid_word_from_state => sub {
     return uc($word) eq $self->state;
 };
 
+command give_up => sub {
+    my $self = shift;
+    $self->is_over(1);
+    return "Game over!";
+};
+
 sub current_player_index {
     my $self = shift;
     for (0..($self->num_players - 1)) {
