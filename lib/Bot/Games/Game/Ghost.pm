@@ -52,7 +52,7 @@ augment turn => sub {
     my $self = shift;
     my ($player, $state) = @_;
 
-    if (!grep { $player eq $_ } $self->players) {
+    if (!$self->has_challenger && !grep { $player eq $_ } $self->players) {
         if ($self->add_player($player)) {
             $self->current_player($player);
         }
