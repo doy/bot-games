@@ -5,14 +5,7 @@ use Module::Pluggable
     search_path => 'Bot::Games::Game',
     except      => ['Bot::Games::Game::Ghostlike'],
     sub_name    => 'games';
-extends 'Bot::BasicBot', 'Moose::Object';
-around new => sub {
-    my $orig = shift;
-    my $class = shift;
-    my $self = $class->$orig(@_);
-    $self->BUILDALL({@_});
-    return $self;
-};
+extends 'Bot::BasicBot';
 
 has prefix => (
     is       => 'rw',
