@@ -3,7 +3,6 @@ package Bot::Games;
 use Bot::Games::OO;
 use Module::Pluggable
     search_path => 'Bot::Games::Game',
-    except      => ['Bot::Games::Game::Ghostlike'],
     sub_name    => 'games';
 extends 'Bot::BasicBot';
 

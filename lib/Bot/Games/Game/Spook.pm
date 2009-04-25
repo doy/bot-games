@@ -2,7 +2,7 @@
 package Bot::Games::Game::Spook;
 use Bot::Games::OO;
 use Games::Word qw/is_subpermutation/;
-extends 'Bot::Games::Game::Ghostlike';
+extends 'Bot::Games::Game::Ghost';
 
 has '+help' => (
     default => "spook help",

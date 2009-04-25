@@ -1,8 +1,12 @@
 #!/usr/bin/perl
-package Bot::Games::Game::Ghostlike;
+package Bot::Games::Game::Ghost;
 use Bot::Games::OO;
 use Games::Word::Wordlist;
 extends 'Bot::Games::Game';
+
+has '+help' => (
+    default => "ghost help",
+);
 
 has current_player => (
     is         => 'rw',
@@ -113,7 +117,11 @@ command next_player => sub {
     return $self->players->[($self->current_player_index + 1) % $self->num_players];
 };
 
-command valid_move => sub { 1 };
+command valid_move => sub {
+    my $self = shift;
+    my ($move) = @_;
+    return uc(substr($move, 0, -1)) eq $self->state;
+};
 
 command valid_word_from_state => sub {
     my $self = shift;

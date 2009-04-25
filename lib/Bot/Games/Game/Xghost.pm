@@ -2,7 +2,7 @@
 package Bot::Games::Game::Xghost;
 use Bot::Games::OO;
 use Games::Word qw/is_substring/;
-extends 'Bot::Games::Game::Ghostlike';
+extends 'Bot::Games::Game::Ghost';
 
 has '+help' => (
     default => "xghost help",

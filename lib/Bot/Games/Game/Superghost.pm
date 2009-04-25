@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 package Bot::Games::Game::Superghost;
 use Bot::Games::OO;
-extends 'Bot::Games::Game::Ghostlike';
+extends 'Bot::Games::Game::Ghost';
 
 has '+help' => (
     default => "superghost help",
