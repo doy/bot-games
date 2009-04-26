@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 package Bot::Games::OO;
 use Moose ();
+use MooseX::AttributeHelpers;
 use Moose::Exporter;
 use Moose::Util::MetaRole;
 

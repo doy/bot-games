@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 package Bot::Games::Game;
 use Bot::Games::OO;
-use MooseX::AttributeHelpers;
 use DateTime;
 
 has help => (
@@ -77,6 +76,5 @@ command cmdlist => sub {
 # this happens in Bot::Games, since we want to add the say method from there
 #__PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
-no MooseX::AttributeHelpers;
 
 1;
