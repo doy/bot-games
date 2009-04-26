@@ -51,15 +51,10 @@ around state => sub {
 augment turn => sub {
     my $self = shift;
     my ($player, $state) = @_;
-
-    if (!$self->has_challenger && !grep { $player eq $_ } $self->players) {
-        if ($self->add_player($player)) {
-            $self->current_player($player);
-        }
-    }
-
+    $self->maybe_add_player($player);
     return "It's " . $self->current_player . "'s turn!"
         if $player ne $self->current_player;
+
     return "You must respond to " . $self->challenger . "'s challenge!"
         if $self->has_challenger;
     return "$state isn't a valid move!"
@@ -83,6 +78,7 @@ command challenge => sub {
     my $self = shift;
     my ($word, $args) = @_;
     my $player = $args->{player};
+    $self->maybe_add_player($player);
     return "It's " . $self->current_player . "'s turn!"
         if $player ne $self->current_player;
 
@@ -116,6 +112,9 @@ command challenge => sub {
     }
 };
 
+before qw/turn challenge/ => sub {
+};
+
 command previous_player => sub {
     my $self = shift;
     return unless $self->has_current_player;
@@ -147,6 +146,16 @@ sub current_player_index {
         return $_ if $self->current_player eq $self->players->[$_];
     }
     return 0;
+}
+
+sub maybe_add_player {
+    my $self = shift;
+    my ($player) = @_;
+    if (!$self->has_challenger && !grep { $player eq $_ } $self->players) {
+        if ($self->add_player($player)) {
+            $self->current_player($player);
+        }
+    }
 }
 
 __PACKAGE__->meta->make_immutable;
