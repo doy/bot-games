@@ -97,8 +97,8 @@ sub said {
                 $self->$say("Game $game_name hasn't started yet!");
                 return;
             }
-            $self->$say($method_meta->execute($game, $arg,
-                                              {player => $args->{who}}));
+            $self->$say(scalar $method_meta->execute($game, $arg,
+                                                     {player => $args->{who}}));
         }
         else {
             $self->$say("Unknown command $action for game $game_name");
