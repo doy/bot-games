@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::Game::Spook;
 use Bot::Games::OO;
 use Games::Word qw/is_subpermutation/;

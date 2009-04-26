@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::Game;
 use Bot::Games::OO;
 use DateTime;

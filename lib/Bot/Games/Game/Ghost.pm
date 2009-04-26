@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::Game::Ghost;
 use Bot::Games::OO;
 use Games::Word::Wordlist;

@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::Meta::Role::Command;
 use Moose::Role;
 

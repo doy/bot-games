@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::Game::Xghost;
 use Bot::Games::OO;
 use Games::Word qw/is_substring/;

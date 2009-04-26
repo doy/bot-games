@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::OO;
 use Moose ();
 use MooseX::AttributeHelpers;

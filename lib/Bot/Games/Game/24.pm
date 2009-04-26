@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games::Game::24;
 use Bot::Games::OO;
 extends 'Bot::Games::Game';

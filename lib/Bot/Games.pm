@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package Bot::Games;
 use Bot::Games::OO;
 use Module::Pluggable
