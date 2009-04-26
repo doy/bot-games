@@ -98,8 +98,8 @@ command challenge => sub {
         # player loses, otherwise the current player loses.
         if ($self->valid_word($word)) {
             return "$word is a word! "
-                 . $self->has_challenger ? $self->challenger
-                                         : $self->previous_player
+                 . ($self->has_challenger ? $self->challenger
+                                          : $self->previous_player)
                  . " loses!";
         }
         else {
