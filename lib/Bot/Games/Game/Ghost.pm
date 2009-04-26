@@ -85,22 +85,31 @@ command challenge => sub {
     my $player = $args->{player};
     return "It's " . $self->current_player . "'s turn!"
         if $player ne $self->current_player;
-    my $prev = $self->previous_player;
-    my $challenger = $self->has_challenger ? $self->challenger : $player;
+
     if ($word) {
-        if (!$self->valid_word_from_state($word)) {
-            return "$word is not valid for state " . $self->state . "!";
-        }
-        elsif ($self->valid_word($word)) {
-            $self->is_over(1);
-            return "$word is a word! $challenger loses!";
+        return "$word is not valid for state " . $self->state . "!"
+            unless $self->valid_word_from_state($word);
+
+        $self->is_over(1);
+        # if there is a challenger, then this is a response by the current
+        # player, so if it's valid, the challenger loses, otherwise the current
+        # player loses. if there isn't a challenger, then this is asserting
+        # that the word exists, so if the word does exist, then the previous
+        # player loses, otherwise the current player loses.
+        if ($self->valid_word($word)) {
+            return "$word is a word! "
+                 . $self->has_challenger ? $self->challenger
+                                         : $self->previous_player
+                 . " loses!";
         }
         else {
-            $self->is_over(1);
-            return "$word is not a word. $challenger wins!";
+            return "$word is not a word! "
+                 . $self->current_player
+                 . " loses!";
         }
     }
     else {
+        my $prev = $self->previous_player;
         $self->challenger($player);
         $self->current_player($prev);
         return "$player is challenging $prev!";
