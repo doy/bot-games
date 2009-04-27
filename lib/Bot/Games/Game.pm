@@ -76,8 +76,12 @@ command cmdlist => sub {
             if $method->meta->can('does_role')
             && $method->meta->does_role('Bot::Games::Trait::Method::Command');
     }
-    return join ' ', sort map { '-' . $_ } @commands;
-}, needs_init => 0;
+    return @commands;
+}, needs_init => 0,
+   formatter => sub {
+       my $list = shift;
+       return join ' ', sort map { '-' . $_ } @$list
+   };
 
 # XXX: this would be much nicer as an external module, but the only one that
 # really does what i want (DateTime::Format::Human::Duration) has only had one
