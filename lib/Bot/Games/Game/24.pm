@@ -23,12 +23,15 @@ has solution => (
 
 sub init {
     my $self = shift;
+    my ($player) = @_;
+    $self->add_player($player) unless $self->has_player($player);
     return $self->generate_24;
 }
 
 augment turn => sub {
     my $self = shift;
     my ($player, $expr) = @_;
+    $self->add_player($player) unless $self->has_player($player);
 
     my $numbers = join ',', sort grep { $_ } split(/[-\+\*\/\(\)]+/, $expr);
     my $solution = join ',', sort split(' ', $self->state);
