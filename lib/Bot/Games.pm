@@ -172,7 +172,7 @@ sub _get_command {
     return $method_meta
         if blessed($method_meta)
         && $method_meta->meta->can('does_role')
-        && $method_meta->meta->does_role('Bot::Games::Meta::Role::Command');
+        && $method_meta->meta->does_role('Bot::Games::Meta::Role::Method::Command');
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);

@@ -15,7 +15,7 @@ has help => (
 # just use that instead.
 has players => (
     metaclass  => 'Collection::Array',
-    traits     => [qw/Bot::Games::Meta::Role::Attribute/],
+    traits     => [qw/Bot::Games::Meta::Role::Attribute::Command/],
     is         => 'ro',
     isa        => 'ArrayRef[Str]',
     auto_deref => 1,
