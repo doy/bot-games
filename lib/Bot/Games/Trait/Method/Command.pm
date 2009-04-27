@@ -1,4 +1,4 @@
-package Bot::Games::Meta::Role::Method::Command;
+package Bot::Games::Trait::Method::Command;
 use Moose::Role;
 
 has pass_args => (

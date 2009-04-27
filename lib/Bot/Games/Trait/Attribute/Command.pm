@@ -1,4 +1,4 @@
-package Bot::Games::Meta::Role::Attribute::Command;
+package Bot::Games::Trait::Attribute::Command;
 use Moose::Role;
 
 has command => (
@@ -27,7 +27,7 @@ around accessor_metaclass => sub {
     return $metaclass unless $self->command;
     return Moose::Meta::Class->create_anon_class(
         superclasses => [$metaclass],
-        roles        => ['Bot::Games::Meta::Role::Method::Command'],
+        roles        => ['Bot::Games::Trait::Method::Command'],
         cache        => 1,
     )->name;
 };

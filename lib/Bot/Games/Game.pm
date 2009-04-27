@@ -15,7 +15,7 @@ has help => (
 # just use that instead.
 has players => (
     metaclass  => 'Collection::Array',
-    traits     => [qw/Bot::Games::Meta::Role::Attribute::Command/],
+    traits     => [qw/Bot::Games::Trait::Attribute::Command/],
     is         => 'ro',
     isa        => 'ArrayRef[Str]',
     auto_deref => 1,
@@ -69,7 +69,7 @@ command cmdlist => sub {
     for my $method ($self->meta->get_all_methods) {
         push @commands, $method->name
             if $method->meta->can('does_role')
-            && $method->meta->does_role('Bot::Games::Meta::Role::Command');
+            && $method->meta->does_role('Bot::Games::Trait::Method::Command');
     }
     return join ' ', sort map { '-' . $_ } @commands;
 }, needs_init => 0;
