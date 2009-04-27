@@ -76,7 +76,7 @@ command cmdlist => sub {
             if $method->meta->can('does_role')
             && $method->meta->does_role('Bot::Games::Trait::Method::Command');
     }
-    return @commands;
+    return \@commands;
 }, needs_init => 0,
    formatter => sub {
        my $list = shift;
