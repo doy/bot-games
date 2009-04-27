@@ -48,7 +48,9 @@ has last_turn_time => (
 has is_over => (
     is         => 'rw',
     isa        => 'Bool',
+    default    => 1,
     command    => 1,
+    needs_init => 0,
 );
 
 sub turn {
