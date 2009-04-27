@@ -42,10 +42,11 @@ sub BUILD {
     my $self = shift;
     $say = sub {
         shift;
-        return $self->say(%$say_args, body => $self->_format(@_)) if @_ == 1;
+        unshift @_, 'body' if @_ % 2 == 1;
         my %overrides = @_;
-        $overrides{body} = $self->_format($overrides{body})
-            if exists $overrides{body};
+        my $formatter = delete $overrides{formatter};
+        $overrides{body} = $formatter->($overrides{body})
+            if $formatter && exists $overrides{body};
         return $self->say(%$say_args, %overrides);
     };
     require Bot::Games::Game;
