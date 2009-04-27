@@ -33,14 +33,14 @@ has start_time => (
     isa        => 'DateTime',
     default    => sub { DateTime->now },
     command    => 1,
-    format     => sub { _diff_from_now(shift) },
+    formatter  => sub { _diff_from_now(shift) },
 );
 
 has last_turn_time => (
     is         => 'rw',
     isa        => 'DateTime',
     command    => 1,
-    format     => sub { _diff_from_now(shift) },
+    formatter  => sub { _diff_from_now(shift) },
 );
 
 has is_over => (
