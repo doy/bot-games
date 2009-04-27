@@ -33,14 +33,14 @@ before _process_options => sub {
 };
 
 after _process_options => sub {
-    my $self = shift;
+    my $class = shift;
     my ($name, $options) = @_;
     return if exists $options->{formatter};
     if (exists $options->{type_constraint}) {
         my $tc = $options->{type_constraint};
         for my $tc_type (keys %default_formatters) {
             if ($tc->is_a_type_of($tc_type)) {
-                $self->formatter($default_formatters{$tc_type});
+                $options->{formatter} = $default_formatters{$tc_type};
             }
         }
     }
