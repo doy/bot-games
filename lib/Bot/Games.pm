@@ -18,13 +18,6 @@ has active_games => (
     default => sub { {} },
 );
 
-has done_init => (
-    is      => 'ro',
-    isa     => 'HashRef[Bool]',
-    lazy    => 1,
-    default => sub { {} },
-);
-
 has alias => (
     is      => 'ro',
     isa     => 'HashRef[Str]',
@@ -81,10 +74,9 @@ sub said {
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
     }
-    if (!$self->done_init->{$game_name}
+    if (!$self->active_games->{$game_name}->is_active
      && (!defined($action) || $action !~ /^-/)) {
         $self->$say($game->init($args->{who})) if $game->can('init');
-        $self->done_init->{$game_name} = 1;
         $self->active_games->{$game_name}->is_active(1);
     }
 
@@ -95,7 +87,8 @@ sub said {
         # XXX: maybe the meta stuff should get pushed out into the plugins
         # themselves, and this should become $game->meta->get_command or so?
         if (my $method_meta = _get_command($game, $action)) {
-            if ($method_meta->needs_init && !$self->done_init->{$game_name}) {
+            if ($method_meta->needs_init
+             && !$self->active_games->{$game_name}->is_active) {
                 $self->$say("Game $game_name hasn't started yet!");
                 return;
             }
@@ -119,7 +112,6 @@ sub said {
 
     if (!$game->is_active) {
         delete $self->active_games->{$game_name};
-        delete $self->done_init->{$game_name};
     }
 
     return;
