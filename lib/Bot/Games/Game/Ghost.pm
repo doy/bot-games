@@ -111,9 +111,6 @@ command challenge => sub {
     }
 };
 
-before qw/turn challenge/ => sub {
-};
-
 command previous_player => sub {
     my $self = shift;
     return unless $self->has_current_player;
