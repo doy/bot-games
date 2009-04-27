@@ -98,8 +98,9 @@ sub said {
                 $self->$say("Game $game_name hasn't started yet!");
                 return;
             }
-            $self->$say(scalar $method_meta->execute($game, $arg,
-                                                     {player => $args->{who}}));
+            my $body = $method_meta->execute($game, $arg,
+                                             {player => $args->{who}});
+            $self->$say($body, formatter => $method_meta->formatter);
         }
         else {
             $self->$say("Unknown command $action for game $game_name");
@@ -150,21 +151,6 @@ sub find_game {
     my @possibilities = grep { /^$abbrev/ } $self->game_list;
     return $possibilities[0] if @possibilities == 1;
     return;
-}
-
-sub _format {
-    my $self = shift;
-    my ($to_print) = @_;
-    if (blessed $to_print) {
-        $to_print = "$to_print";
-    }
-    elsif (ref($to_print) && ref($to_print) eq 'ARRAY') {
-        $to_print = join ', ', @$to_print;
-    }
-    elsif (!$to_print) {
-        $to_print = 'false';
-    }
-    return $to_print;
 }
 
 sub _get_command {
