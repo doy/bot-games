@@ -100,7 +100,8 @@ sub said {
             }
             my $body = $method_meta->execute($game, $arg,
                                              {player => $args->{who}});
-            $self->$say($body, formatter => $method_meta->formatter);
+            my @extra_args = $method_meta->does_role('Bot::Games::Trait::Method::Formatted') ? (formatter => $method_meta->formatter) : ();
+            $self->$say($body, @extra_args);
         }
         else {
             $self->$say("Unknown command $action for game $game_name");
