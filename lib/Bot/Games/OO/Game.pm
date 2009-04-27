@@ -3,7 +3,11 @@ use Bot::Games::OO ();
 
 sub command {
     my $class = shift;
-    my ($name, $code, %args) = @_;
+    my $name = shift;
+    my $code;
+    $code = shift if ref($_[0]) eq 'CODE';
+    my %args = @_;
+
     my $method_meta = $class->meta->get_method($name);
     my $superclass = Moose::blessed($method_meta) || 'Moose::Meta::Method';
     my @method_metaclass_roles = ('Bot::Games::Trait::Method::Command');
