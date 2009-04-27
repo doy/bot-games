@@ -77,6 +77,7 @@ sub generate_24 {
             $n1 *= $val;
             $n2 = $n1 / $val;
         }
+        redo if $n1 >= 100 || $n2 >= 100;
         splice @nums, $index, 1, ('(', $n1, $op, $n2, ')');
     }
     pop @nums;
