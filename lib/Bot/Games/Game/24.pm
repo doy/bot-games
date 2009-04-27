@@ -4,6 +4,7 @@ extends 'Bot::Games::Game';
 
 use List::Util qw/shuffle/;
 use Math::Expression::Evaluator;
+use Time::Duration;
 
 has '+help' => (
     default => '24 help',
@@ -36,7 +37,9 @@ augment turn => sub {
     my $eval = $self->evaluate($expr);
     if (defined($eval) && $eval == 24) {
         $self->is_over(1);
-        return "$player wins!";
+        return "$player wins! ("
+             . concise(duration_exact(time - $self->start_time->epoch))
+             . ")";
     }
     else {
         return "$expr = " . (defined($eval) ? $eval : 'undef');
