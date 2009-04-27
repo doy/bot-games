@@ -1,5 +1,5 @@
 package Bot::Games::Game::Spook;
-use Bot::Games::OO;
+use Bot::Games::OO::Game;
 use Games::Word qw/is_subpermutation/;
 extends 'Bot::Games::Game::Ghost';
 

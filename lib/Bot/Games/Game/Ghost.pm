@@ -1,5 +1,5 @@
 package Bot::Games::Game::Ghost;
-use Bot::Games::OO;
+use Bot::Games::OO::Game;
 use Games::Word::Wordlist;
 extends 'Bot::Games::Game';
 

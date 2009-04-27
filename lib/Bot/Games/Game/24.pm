@@ -1,5 +1,5 @@
 package Bot::Games::Game::24;
-use Bot::Games::OO;
+use Bot::Games::OO::Game;
 extends 'Bot::Games::Game';
 
 use List::Util qw/shuffle/;

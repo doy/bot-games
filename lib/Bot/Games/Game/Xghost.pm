@@ -1,5 +1,5 @@
 package Bot::Games::Game::Xghost;
-use Bot::Games::OO;
+use Bot::Games::OO::Game;
 use Games::Word qw/is_substring/;
 extends 'Bot::Games::Game::Ghost';
 

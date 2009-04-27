@@ -1,5 +1,5 @@
 package Bot::Games::Game;
-use Bot::Games::OO;
+use Bot::Games::OO::Game;
 use DateTime;
 
 has help => (

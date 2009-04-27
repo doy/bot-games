@@ -1,5 +1,5 @@
 package Bot::Games::Game::Superghost;
-use Bot::Games::OO;
+use Bot::Games::OO::Game;
 extends 'Bot::Games::Game::Ghost';
 
 has '+help' => (
