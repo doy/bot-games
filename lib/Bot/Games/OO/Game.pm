@@ -11,7 +11,7 @@ sub command {
         if $args{formatter};
     my $method_metaclass = Moose::Meta::Class->create_anon_class(
         superclasses => [$superclass],
-        roles        => [@method_metaclass_roles],
+        roles        => \@method_metaclass_roles,
         cache        => 1,
     );
     if ($method_meta) {
