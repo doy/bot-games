@@ -6,9 +6,12 @@ sub command {
     my ($name, $code, %args) = @_;
     my $method_meta = $class->meta->get_method($name);
     my $superclass = Moose::blessed($method_meta) || 'Moose::Meta::Method';
+    my @method_metaclass_roles = ('Bot::Games::Trait::Method::Command');
+    push @method_metaclass_roles, 'Bot::Games::Trait::Method::Formatted'
+        if $args{formatter};
     my $method_metaclass = Moose::Meta::Class->create_anon_class(
         superclasses => [$superclass],
-        roles        => ['Bot::Games::Trait::Method::Command'],
+        roles        => [@method_metaclass_roles],
         cache        => 1,
     );
     if ($method_meta) {
@@ -22,7 +25,7 @@ sub command {
         );
         $class->meta->add_method($name, $method_meta);
     }
-    for my $attr ($method_metaclass->get_attribute_list) {
+    for my $attr (map { $_->meta->get_attribute_list } @method_metaclass_roles) {
         $method_meta->$attr($args{$attr}) if exists $args{$attr};
     }
 }
@@ -42,8 +45,6 @@ sub init_meta {
         attribute_metaclass_roles =>
             ['Bot::Games::Trait::Attribute::Command',
              'Bot::Games::Trait::Attribute::Formatted'],
-        method_metaclass_roles =>
-            ['Bot::Games::Trait::Method::Formatted'],
         metaclass_roles =>
             ['Bot::Games::Trait::Class::Command'],
     );
