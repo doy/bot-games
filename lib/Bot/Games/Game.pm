@@ -1,6 +1,7 @@
 package Bot::Games::Game;
 use Bot::Games::OO::Game;
 use DateTime;
+use Time::Duration;
 
 has help => (
     is         => 'ro',
@@ -83,17 +84,7 @@ command cmdlist => sub {
        return join ' ', sort map { '-' . $_ } @$list
    };
 
-# XXX: this would be much nicer as an external module, but the only one that
-# really does what i want (DateTime::Format::Human::Duration) has only had one
-# release, which doesn't pass tests. bleh.
-sub _diff_from_now {
-    my ($dt) = @_;
-    my $dur = DateTime->now - $dt;
-    my @units = qw/weeks days hours minutes seconds/;
-    $dur->in_units(@units);
-    my @dur_values = map { $dur->$_ . " $_" } grep { $dur->$_ } @units;
-    return join(', ', @dur_values) . " ago";
-}
+sub _diff_from_now { ago(time - shift->epoch, 3) }
 
 # this happens in Bot::Games, since we want to add the say method from there
 #__PACKAGE__->meta->make_immutable;
