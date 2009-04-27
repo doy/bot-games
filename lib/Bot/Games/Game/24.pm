@@ -98,6 +98,6 @@ sub evaluate {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Bot::Games::OO;
+no Bot::Games::OO::Game;
 
 1;

@@ -89,6 +89,6 @@ sub _diff_from_now { ago(time - shift->epoch, 3) }
 
 # this happens in Bot::Games, since we want to add the say method from there
 #__PACKAGE__->meta->make_immutable;
-no Bot::Games::OO;
+no Bot::Games::OO::Game;
 
 1;
