@@ -22,7 +22,7 @@ sub command {
         );
         $class->meta->add_method($name, $method_meta);
     }
-    for my $attr (Bot::Games::Trait::Method::Command->meta->get_attribute_list) {
+    for my $attr ($method_metaclass->get_attribute_list) {
         $method_meta->$attr($args{$attr}) if exists $args{$attr};
     }
 }
