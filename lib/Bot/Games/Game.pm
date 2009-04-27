@@ -26,9 +26,20 @@ has players => (
         push  => 'add_player',
         count => 'num_players',
     },
+    curries    => {
+        find  => {
+            has_player => sub {
+                my $self = shift;
+                my $body = shift;
+                my ($player) = @_;
+                return $self->$body(sub { $_[0] eq $player }) ? 1 : 0;
+            },
+        },
+    },
     command    => 1,
 );
 command 'num_players';
+command 'has_player', formatter => sub { $_[0] ? 'true' : 'false' };
 
 has start_time => (
     is         => 'ro',
