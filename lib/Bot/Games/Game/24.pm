@@ -36,7 +36,7 @@ augment turn => sub {
 
     my $eval = $self->evaluate($expr);
     if (defined($eval) && $eval == 24) {
-        $self->is_over(1);
+        $self->is_active(0);
         return "$player wins! ("
              . concise(duration_exact(time - $self->start_time->epoch))
              . ")";
@@ -48,7 +48,7 @@ augment turn => sub {
 
 command give_up => sub {
     my $self = shift;
-    $self->is_over(1);
+    $self->is_active(0);
     return $self->solution;
 };
 

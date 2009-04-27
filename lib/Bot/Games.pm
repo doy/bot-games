@@ -85,7 +85,7 @@ sub said {
      && (!defined($action) || $action !~ /^-/)) {
         $self->$say($game->init($args->{who})) if $game->can('init');
         $self->done_init->{$game_name} = 1;
-        $self->active_games->{$game_name}->is_over(0);
+        $self->active_games->{$game_name}->is_active(1);
     }
 
     return unless defined $action;
@@ -117,7 +117,7 @@ sub said {
         $self->$say($turn) if $turn;
     }
 
-    if ($game->is_over) {
+    if (!$game->is_active) {
         delete $self->active_games->{$game_name};
         delete $self->done_init->{$game_name};
     }

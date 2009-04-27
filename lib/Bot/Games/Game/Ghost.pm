@@ -85,7 +85,7 @@ command challenge => sub {
         return "$word is not valid for state " . $self->state . "!"
             unless $self->valid_word_from_state($word);
 
-        $self->is_over(1);
+        $self->is_active(0);
         # if there is a challenger, then this is a response by the current
         # player, so if it's valid, the challenger loses, otherwise the current
         # player loses. if there isn't a challenger, then this is asserting

@@ -45,10 +45,9 @@ has last_turn_time => (
     formatter  => sub { _diff_from_now(shift) },
 );
 
-has is_over => (
+has is_active => (
     is         => 'rw',
     isa        => 'Bool',
-    default    => 1,
     command    => 1,
     needs_init => 0,
 );
