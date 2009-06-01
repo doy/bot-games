@@ -27,7 +27,7 @@ has challenger => (
     predicate  => 'has_challenger',
     command    => 1,
 );
-command 'has_challenger', formatter => __PACKAGE__->meta->formatter_for('Bool');
+command 'has_challenger', formatter => 'Bool';
 
 has wordlist => (
     is         => 'ro',
@@ -127,14 +127,14 @@ command valid_move => sub {
     my $self = shift;
     my ($move) = @_;
     return uc(substr($move, 0, -1)) eq $self->state;
-}, formatter => __PACKAGE__->meta->formatter_for('Bool');
+}, formatter => 'Bool';
 
 command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
     my $word_prefix = substr($word, 0, length($self->state));
     return uc($word_prefix) eq $self->state;
-}, formatter => __PACKAGE__->meta->formatter_for('Bool');
+}, formatter => 'Bool';
 
 sub current_player_index {
     my $self = shift;

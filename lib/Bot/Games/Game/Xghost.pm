@@ -12,13 +12,13 @@ command valid_move => sub {
     my ($move) = @_;
     return is_substring($self->state, uc($move))
         && length($self->state) + 1 == length($move);
-}, formatter => __PACKAGE__->meta->formatter_for('Bool');
+}, formatter => 'Bool';
 
 command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
     return is_substring($self->state, uc($move));
-}, formatter => __PACKAGE__->meta->formatter_for('Bool');
+}, formatter => 'Bool';
 
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO::Game;

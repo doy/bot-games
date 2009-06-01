@@ -12,7 +12,7 @@ command valid_move => sub {
     my ($move) = @_;
     return is_subpermutation($self->state, uc($move))
         && length($self->state) + 1 == length($move);
-}, formatter => __PACKAGE__->meta->formatter_for('Bool');
+}, formatter => 'Bool';
 
 command valid_word_from_state => sub {
     my $self = shift;
@@ -20,7 +20,7 @@ command valid_word_from_state => sub {
     $word = uc join '', sort split(//, $word);
     my $state = join '', sort split(//, $self->state);
     return $word eq $state;
-}, formatter => __PACKAGE__->meta->formatter_for('Bool');
+}, formatter => 'Bool';
 
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO::Game;
