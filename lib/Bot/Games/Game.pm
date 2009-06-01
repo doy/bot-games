@@ -39,7 +39,7 @@ has players => (
     command    => 1,
 );
 command 'num_players';
-command 'has_player', formatter => sub { $_[0] ? 'true' : 'false' };
+command 'has_player', formatter => __PACKAGE__->meta->formatter_for('Bool');
 
 has start_time => (
     is         => 'ro',
