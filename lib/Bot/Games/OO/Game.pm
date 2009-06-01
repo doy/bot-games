@@ -30,7 +30,12 @@ sub command {
         $class->meta->add_method($name, $method_meta);
     }
     for my $attr (map { $_->meta->get_attribute_list } @method_metaclass_roles) {
-        $method_meta->$attr($args{$attr}) if exists $args{$attr};
+        next unless exists $args{$attr};
+        my $value = $args{$attr};
+        my $munge_method = "_munge_$attr";
+        $value = $method_meta->$munge_method($value)
+            if $method_meta->can($munge_method);
+        $method_meta->$attr($value);
     }
 }
 

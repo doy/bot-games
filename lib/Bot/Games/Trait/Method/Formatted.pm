@@ -10,6 +10,13 @@ has formatter => (
     } },
 );
 
+sub _munge_formatter {
+    my $self = shift;
+    my ($format) = @_;
+    return $format if ref($format) eq 'CODE';
+    return $self->associated_metaclass->formatter_for($format);
+}
+
 no Moose::Role;
 
 1;
