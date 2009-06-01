@@ -53,7 +53,11 @@ has last_turn_time => (
     is         => 'rw',
     isa        => 'DateTime',
     command    => 1,
-    formatter  => sub { _diff_from_now(shift) },
+    formatter  => sub {
+        my $time = shift;
+        return "Nobody has taken a turn yet!" if !$time;
+        return _diff_from_now($time)
+    },
 );
 
 has is_active => (
