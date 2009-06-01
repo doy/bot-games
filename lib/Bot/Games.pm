@@ -145,7 +145,7 @@ sub find_game {
     return;
 }
 
-__PACKAGE__->meta->make_immutable(inline_constructor => 0);
+__PACKAGE__->meta->make_immutable;
 no Bot::Games::OO;
 
 1;
