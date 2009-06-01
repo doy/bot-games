@@ -57,7 +57,7 @@ augment turn => sub {
     return "You must respond to " . $self->challenger . "'s challenge!"
         if $self->has_challenger;
     return "$state isn't a valid move!"
-        unless $state =~ /a-z/i && $self->valid_move($state);
+        unless $state =~ /[a-z]/i && $self->valid_move($state);
 
     $self->current_player($self->next_player);
     return $self->state($state);
