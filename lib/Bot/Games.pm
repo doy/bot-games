@@ -84,9 +84,7 @@ sub said {
 
     if ($action =~ /^-(\w+)\s*(.*)/) {
         my ($action, $arg) = ($1, $2);
-        # XXX: maybe the meta stuff should get pushed out into the plugins
-        # themselves, and this should become $game->meta->get_command or so?
-        if (my $method_meta = _get_command($game, $action)) {
+        if (my $method_meta = $game->meta->get_command($action)) {
             if ($method_meta->needs_init
              && !$self->active_games->{$game_name}->is_active) {
                 $self->$say("Game $game_name hasn't started yet!");
@@ -145,15 +143,6 @@ sub find_game {
     my @possibilities = grep { /^$abbrev/ } $self->game_list;
     return $possibilities[0] if @possibilities == 1;
     return;
-}
-
-sub _get_command {
-    my ($game, $action) = @_;
-    my $method_meta = $game->meta->find_method_by_name($action);
-    return $method_meta
-        if blessed($method_meta)
-        && $method_meta->meta->can('does_role')
-        && $method_meta->meta->does_role('Bot::Games::Trait::Method::Command');
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);

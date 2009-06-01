@@ -18,6 +18,16 @@ after ((map { "add_${_}_method_modifier" } qw/before after around/) => sub {
     $method_metaclass->rebless_instance($method_meta, pass_args => $pass_args);
 });
 
+sub get_command {
+    my $self = shift;
+    my ($action) = @_;
+    my $method_meta = $self->find_method_by_name($action);
+    return $method_meta
+        if blessed($method_meta)
+        && $method_meta->meta->can('does_role')
+        && $method_meta->meta->does_role('Bot::Games::Trait::Method::Command');
+}
+
 no Moose::Role;
 
 1;
