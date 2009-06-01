@@ -11,14 +11,14 @@ command valid_move => sub {
     my ($move) = @_;
     return uc(substr($move, 0, -1)) eq $self->state
         || uc(substr($move, 1))     eq $self->state;
-};
+}, formatter => __PACKAGE__->meta->formatter_for('Bool');
 
 command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
     my $state = $self->state;
     return uc($word) =~ /\Q$state\E/;
-};
+}, formatter => __PACKAGE__->meta->formatter_for('Bool');
 
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO::Game;
