@@ -1,21 +1,6 @@
 package Bot::Games::Trait::Attribute::Formatted;
 use Moose::Role;
 
-my %default_formatters = (
-    'ArrayRef' => sub {
-        my $arrayref = shift;
-        return join ', ', @$arrayref;
-    },
-    'Bool'     => sub {
-        my $bool = shift;
-        return $bool ? 'true' : 'false';
-    },
-    'Object'   => sub {
-        my $obj = shift;
-        return "$obj";
-    },
-);
-
 # when the attribute is being constructed, the accessor methods haven't been
 # generated yet, so we need to store the formatter here, and then apply it
 # after the accessor methods exist
@@ -32,18 +17,17 @@ before _process_options => sub {
         if exists($options->{formatter}) && !$options->{command};
 };
 
-after _process_options => sub {
-    my $class = shift;
-    my ($name, $options) = @_;
-    return if exists $options->{formatter};
-    return unless $options->{command};
-    if (exists $options->{type_constraint}) {
-        my $tc = $options->{type_constraint};
-        for my $tc_type (keys %default_formatters) {
-            if ($tc->is_a_type_of($tc_type)) {
-                $options->{formatter} = $default_formatters{$tc_type};
-                return;
-            }
+after attach_to_class => sub {
+    my $self = shift;
+    my ($meta) = @_;
+    return if $self->has_formatter;
+    return unless $self->command;
+    return unless $self->has_type_constraint;
+    my $tc = $self->type_constraint;
+    for my $tc_name ($meta->formattable_tcs) {
+        if ($tc->is_a_type_of($tc_name)) {
+            $self->formatter($meta->formatter_for($tc_name));
+            return;
         }
     }
 };

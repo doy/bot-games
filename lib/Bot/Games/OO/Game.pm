@@ -50,7 +50,8 @@ sub init_meta {
             ['Bot::Games::Trait::Attribute::Command',
              'Bot::Games::Trait::Attribute::Formatted'],
         metaclass_roles =>
-            ['Bot::Games::Trait::Class::Command'],
+            ['Bot::Games::Trait::Class::Command',
+             'Bot::Games::Trait::Class::Formatted'],
     );
     return $options{for_class}->meta;
 }
