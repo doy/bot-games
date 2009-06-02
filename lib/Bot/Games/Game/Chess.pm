@@ -29,7 +29,8 @@ augment turn => sub {
     my $self = shift;
     my ($player, $move) = @_;
     $self->add_player($player) unless $self->has_player($player);
-    return unless $self->has_player($player);
+    return "The game has already begun between " . join ' and ', $self->players
+        unless $self->has_player($player);
 
     my $status = eval { $self->game->go_move($move) };
     return $@ if $@;
