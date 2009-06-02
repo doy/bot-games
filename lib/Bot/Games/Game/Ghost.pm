@@ -2,16 +2,10 @@ package Bot::Games::Game::Ghost;
 use Bot::Games::OO::Game;
 use Games::Word::Wordlist;
 extends 'Bot::Games::Game';
+with 'Bot::Games::Game::Role::CurrentPlayer';
 
 has '+help' => (
     default => "ghost help",
-);
-
-has current_player => (
-    is         => 'rw',
-    isa        => 'Str',
-    predicate  => 'has_current_player',
-    command    => 1,
 );
 
 has state => (
@@ -111,18 +105,6 @@ command challenge => sub {
     }
 };
 
-command previous_player => sub {
-    my $self = shift;
-    return unless $self->has_current_player;
-    return $self->players->[$self->current_player_index - 1];
-};
-
-command next_player => sub {
-    my $self = shift;
-    return unless $self->has_current_player;
-    return $self->players->[($self->current_player_index + 1) % $self->num_players];
-};
-
 command valid_move => sub {
     my $self = shift;
     my ($move) = @_;
@@ -135,14 +117,6 @@ command valid_word_from_state => sub {
     my $word_prefix = substr($word, 0, length($self->state));
     return uc($word_prefix) eq $self->state;
 }, formatter => 'Bool';
-
-sub current_player_index {
-    my $self = shift;
-    for (0..($self->num_players - 1)) {
-        return $_ if $self->current_player eq $self->players->[$_];
-    }
-    return 0;
-}
 
 sub maybe_add_player {
     my $self = shift;
