@@ -64,4 +64,7 @@ sub format_turn {
     $ret .= $turn->{san};
 }
 
+__PACKAGE__->meta->make_immutable;
+no Bot::Games::OO::Game;
+
 1;
