@@ -29,7 +29,8 @@ has turn_count => (
 augment turn => sub {
     my $self = shift;
     my ($player, $move) = @_;
-    $self->add_player($player) unless $self->has_player($player);
+    $self->maybe_add_player($player);
+
     return "The game has already begun between " . join ' and ', $self->players
         unless $self->has_player($player);
     return "It's not your turn"

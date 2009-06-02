@@ -118,15 +118,12 @@ command valid_word_from_state => sub {
     return uc($word_prefix) eq $self->state;
 }, formatter => 'Bool';
 
-sub maybe_add_player {
+around maybe_add_player => sub {
+    my $orig = shift;
     my $self = shift;
-    my ($player) = @_;
-    if (!$self->has_challenger && !grep { $player eq $_ } $self->players) {
-        if ($self->add_player($player)) {
-            $self->current_player($player);
-        }
-    }
-}
+    return if $self->has_challenger;
+    return $self->$orig(@_);
+};
 
 __PACKAGE__->meta->make_immutable;
 no Bot::Games::OO::Game;

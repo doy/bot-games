@@ -1,7 +1,7 @@
 package Bot::Games::Game::Role::CurrentPlayer;
 use Bot::Games::OO::Game::Role;
 
-requires 'players', 'num_players';
+requires 'players', 'num_players', 'add_player';
 
 has current_player => (
     is         => 'rw',
@@ -28,6 +28,16 @@ sub current_player_index {
         return $_ if $self->current_player eq $self->players->[$_];
     }
     return 0;
+}
+
+sub maybe_add_player {
+    my $self = shift;
+    my ($player) = @_;
+    if (!grep { $player eq $_ } $self->players) {
+        if ($self->add_player($player)) {
+            $self->current_player($player);
+        }
+    }
 }
 
 no Bot::Games::OO::Game::Role;
