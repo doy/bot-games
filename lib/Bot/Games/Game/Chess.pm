@@ -2,7 +2,6 @@ package Bot::Games::Game::Chess;
 use Bot::Games::OO::Game;
 extends 'Bot::Games::Game';
 
-use MooseX::AttributeHelpers;
 use Chess::Rep;
 use App::Nopaste;
 
