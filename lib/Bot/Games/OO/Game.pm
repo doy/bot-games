@@ -2,15 +2,15 @@ package Bot::Games::OO::Game;
 use Bot::Games::OO ();
 
 sub command {
-    my $class = shift;
+    my $caller = shift;
     my $name = shift;
     my $code;
     $code = shift if ref($_[0]) eq 'CODE';
     my %args = @_;
 
-    my $method_meta = $class->meta->get_method($name);
+    my $method_meta = $caller->meta->get_method($name);
     my $superclass = Moose::blessed($method_meta)
-                  || $class->meta->method_metaclass;
+                  || $caller->meta->method_metaclass;
     my @method_metaclass_roles = ('Bot::Games::Trait::Method::Command');
     push @method_metaclass_roles, 'Bot::Games::Trait::Method::Formatted'
         if $args{formatter};
@@ -25,10 +25,10 @@ sub command {
     else {
         $method_meta = $method_metaclass->name->wrap(
             $code,
-            package_name => $class,
+            package_name => $caller,
             name         => $name,
         );
-        $class->meta->add_method($name, $method_meta);
+        $caller->meta->add_method($name, $method_meta);
     }
     for my $attr (map { $_->meta->get_attribute_list } @method_metaclass_roles) {
         next unless exists $args{$attr};
