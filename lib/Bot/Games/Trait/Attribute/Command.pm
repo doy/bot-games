@@ -20,6 +20,9 @@ before _process_options => sub {
         if exists($options->{needs_init}) && !$options->{command};
 };
 
+# XXX: accessor_metaclass is also used for things like predicates, so all
+# predicates associated with command attributes are being made commands too...
+# this shouldn't be the case
 around accessor_metaclass => sub {
     my $orig = shift;
     my $self = shift;
