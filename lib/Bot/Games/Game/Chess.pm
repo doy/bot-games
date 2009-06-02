@@ -1,6 +1,7 @@
 package Bot::Games::Game::Chess;
 use Bot::Games::OO::Game;
 extends 'Bot::Games::Game';
+with 'Bot::Games::Game::Role::CurrentPlayer';
 
 use Chess::Rep;
 use App::Nopaste;
@@ -31,9 +32,8 @@ augment turn => sub {
     $self->add_player($player) unless $self->has_player($player);
     return "The game has already begun between " . join ' and ', $self->players
         unless $self->has_player($player);
-    my $player_index = $self->game->to_move ? 0 : 1;
     return "It's not your turn"
-        if $player ne ($self->players->[$player_index] || '');
+        if $player ne $self->current_player;
 
     my $status = eval { $self->game->go_move($move) };
     return $@ if $@;
@@ -41,6 +41,7 @@ augment turn => sub {
     $self->inc_turn if $self->game->to_move;
     $self->is_active(0) if $self->game->status->{mate}
                         || $self->game->status->{stalemate};
+    $self->current_player($self->next_player);
 
     return "$desc: " . App::Nopaste::nopaste(text => $self->game->dump_pos,
                                              desc => $desc,
