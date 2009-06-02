@@ -3,6 +3,7 @@ use Bot::Games::OO;
 use List::Util qw/first/;
 use Module::Pluggable
     search_path => 'Bot::Games::Game',
+    except      => qr/Bot::Games::Game::Role/,
     sub_name    => 'games';
 extends 'Bot::BasicBot';
 
