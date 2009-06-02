@@ -11,13 +11,8 @@ has help => (
     needs_init => 0,
 );
 
-# XXX: traits has to be specified manually here because the metaclass option
-# overrides anything set up by MetaRole - once MXAH can use traits, we should
-# just use that instead.
 has players => (
-    metaclass  => 'Collection::Array',
-    traits     => ['Bot::Games::Trait::Attribute::Command',
-                   'Bot::Games::Trait::Attribute::Formatted'],
+    traits     => ['Collection::Array'],
     is         => 'ro',
     isa        => 'ArrayRef[Str]',
     auto_deref => 1,
