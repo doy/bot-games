@@ -1,5 +1,5 @@
 package Bot::Games::Trait::Class::Command;
-use Moose::Role;
+use Bot::Games::OO::Role;
 
 after ((map { "add_${_}_method_modifier" } qw/before after around/) => sub {
     my $self = shift;
@@ -28,6 +28,6 @@ sub get_command {
         && $method_meta->meta->does_role('Bot::Games::Trait::Method::Command');
 }
 
-no Moose::Role;
+no Bot::Games::OO::Role;
 
 1;

@@ -1,5 +1,5 @@
 package Bot::Games::Trait::Attribute::Command;
-use Moose::Role;
+use Bot::Games::OO::Role;
 
 has command => (
     is      => 'rw',
@@ -40,6 +40,6 @@ after install_accessors => sub {
     $method_meta->needs_init($self->needs_init);
 };
 
-no Moose::Role;
+no Bot::Games::OO::Role;
 
 1;

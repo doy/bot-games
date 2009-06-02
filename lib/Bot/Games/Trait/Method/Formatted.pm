@@ -1,5 +1,5 @@
 package Bot::Games::Trait::Method::Formatted;
-use Moose::Role;
+use Bot::Games::OO::Role;
 
 has formatter => (
     is      => 'rw',
@@ -17,6 +17,6 @@ sub _munge_formatter {
     return $self->associated_metaclass->formatter_for($format);
 }
 
-no Moose::Role;
+no Bot::Games::OO::Role;
 
 1;

@@ -1,6 +1,5 @@
 package Bot::Games::Trait::Class::Formatted;
-use Moose::Role;
-use MooseX::AttributeHelpers;
+use Bot::Games::OO::Role;
 
 has default_formatters => (
     metaclass => 'Collection::ImmutableHash',
@@ -22,6 +21,6 @@ sub _build_default_formatters {
     }
 }
 
-no Moose::Role;
+no Bot::Games::OO::Role;
 
 1;

@@ -1,5 +1,5 @@
 package Bot::Games::Trait::Attribute::Formatted;
-use Moose::Role;
+use Bot::Games::OO::Role;
 
 # when the attribute is being constructed, the accessor methods haven't been
 # generated yet, so we need to store the formatter here, and then apply it
@@ -53,6 +53,6 @@ after install_accessors => sub {
     }
 };
 
-no Moose::Role;
+no Bot::Games::OO::Role;
 
 1;

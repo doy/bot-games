@@ -1,5 +1,5 @@
 package Bot::Games::Trait::Method::Command;
-use Moose::Role;
+use Bot::Games::OO::Role;
 
 has pass_args => (
     is      => 'rw',
@@ -19,6 +19,6 @@ around execute => sub {
     return $self->pass_args ? $self->$orig(@_) : $self->$orig($_[0]);
 };
 
-no Moose::Role;
+no Bot::Games::OO::Role;
 
 1;
