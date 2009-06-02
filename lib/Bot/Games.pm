@@ -1,5 +1,6 @@
 package Bot::Games;
 use Bot::Games::OO;
+use List::Util qw/first/;
 use Module::Pluggable
     search_path => 'Bot::Games::Game',
     sub_name    => 'games';
@@ -125,7 +126,7 @@ sub valid_game {
 sub game_package {
     my $self = shift;
     my ($name) = @_;
-    return 'Bot::Games::Game::' . ucfirst($name);
+    return first { /\Q::$name\E$/i } $self->games;
 }
 
 sub game_list {
