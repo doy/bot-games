@@ -31,6 +31,9 @@ augment turn => sub {
     $self->add_player($player) unless $self->has_player($player);
     return "The game has already begun between " . join ' and ', $self->players
         unless $self->has_player($player);
+    my $player_index = $self->game->to_move ? 0 : 1;
+    return "It's not your turn"
+        if $player ne $self->players->[$player_index];
 
     my $status = eval { $self->game->go_move($move) };
     return $@ if $@;
