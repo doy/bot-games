@@ -34,7 +34,7 @@ augment turn => sub {
     my $status = eval { $self->game->go_move($move) };
     return $@ if $@;
     my $desc = $self->format_turn($status);
-    $self->game->inc_counter if $self->game->to_move;
+    $self->inc_turn if $self->game->to_move;
     $self->is_active(0) if $self->game->status->{mate}
                         || $self->game->status->{stalemate};
 
