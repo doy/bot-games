@@ -9,7 +9,8 @@ sub command {
     my %args = @_;
 
     my $method_meta = $class->meta->get_method($name);
-    my $superclass = Moose::blessed($method_meta) || 'Moose::Meta::Method';
+    my $superclass = Moose::blessed($method_meta)
+                  || $class->meta->method_metaclass;
     my @method_metaclass_roles = ('Bot::Games::Trait::Method::Command');
     push @method_metaclass_roles, 'Bot::Games::Trait::Method::Formatted'
         if $args{formatter};
