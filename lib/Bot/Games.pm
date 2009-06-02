@@ -73,6 +73,11 @@ sub said {
     if (!defined $game) {
         my $game_package = $self->game_package($game_name);
         eval "require $game_package";
+        if ($@) {
+            warn $@;
+            $self->$say((split /\n/, $@)[0]);
+            return;
+        }
         $game = $game_package->new;
         $self->active_games->{$game_name} = $game;
     }
