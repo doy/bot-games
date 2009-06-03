@@ -65,6 +65,16 @@ command resign => sub {
                                  nick => $args->{player})
 };
 
+command state => sub {
+    my $self = shift;
+    my ($dummy, $args) = @_;
+    return $self->current_player
+         . ($self->game->to_move ? ' (white)' : ' (black)')
+         . ' to play: '
+         . App::Nopaste::nopaste(text => $self->game->dump_pos,
+                                 nick => $args->{player});
+};
+
 sub format_turn {
     my $self = shift;
     my ($turn) = @_;
