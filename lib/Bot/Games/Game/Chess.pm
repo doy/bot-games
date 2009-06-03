@@ -68,9 +68,15 @@ command resign => sub {
 command state => sub {
     my $self = shift;
     my ($dummy, $args) = @_;
-    return $self->current_player
-         . ($self->game->to_move ? ' (white)' : ' (black)')
-         . ' to play: '
+    my $player;
+    if ($self->num_players == 2) {
+        $player  = $self->current_player;
+        $player .= $self->game->to_move ? ' (white)' : ' (black)';
+    }
+    else {
+        $player = $self->game->to_move ? 'White' : 'Black';
+    }
+    return "$player to play: "
          . App::Nopaste::nopaste(text => $self->game->dump_pos,
                                  nick => $args->{player});
 };
