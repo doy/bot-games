@@ -79,10 +79,9 @@ sub format_turn {
     my $self = shift;
     my ($turn) = @_;
     my $ret = $self->turn_count . ". ";
-    if ($self->game->to_move) {
-        $ret .= "... ";
-    }
+    $ret .= "... " if $self->game->to_move;
     $ret .= $turn->{san};
+    return $ret;
 }
 
 __PACKAGE__->meta->make_immutable;
