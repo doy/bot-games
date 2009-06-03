@@ -56,6 +56,15 @@ around allow_new_player => sub {
     return $self->$orig(@_);
 };
 
+command resign => sub {
+    my $self = shift;
+    my ($dummy, $args) = @_;
+    $self->is_active(0);
+    return "$args->{player} resigns: "
+         . App::Nopaste::nopaste(text => $self->game->dump_pos,
+                                 nick => $args->{player})
+};
+
 sub format_turn {
     my $self = shift;
     my ($turn) = @_;
