@@ -2,7 +2,7 @@ package Bot::Games::OO;
 use IM::Engine::Plugin::Commands::OO ();
 use Moose::Exporter;
 
-my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
+Moose::Exporter->build_import_methods(
     install => [qw(import unimport)],
     also    => ['IM::Engine::Plugin::Commands::OO'],
 );
@@ -13,7 +13,8 @@ sub init_meta {
         if !exists $options{base_class}
         && $options{for_class} ne 'Bot::Games::Game';
     IM::Engine::Plugin::Commands::OO->init_meta(%options);
-    goto $init_meta;
+    # no init_meta is generated, since no metarole options were specified
+    return Class::MOP::class_of($options{for_class});
 }
 
 1;
