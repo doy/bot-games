@@ -1,6 +1,5 @@
 package Bot::Games::Game::Chess;
 use Bot::Games::OO;
-extends 'Bot::Games::Game';
 with 'Bot::Games::Game::Role::CurrentPlayer';
 
 use Chess::Rep;

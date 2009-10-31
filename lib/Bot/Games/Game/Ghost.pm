@@ -1,7 +1,6 @@
 package Bot::Games::Game::Ghost;
 use Bot::Games::OO;
 use Games::Word::Wordlist;
-extends 'Bot::Games::Game';
 with 'Bot::Games::Game::Role::CurrentPlayer';
 
 has '+help' => (

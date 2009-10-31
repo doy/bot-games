@@ -1,6 +1,5 @@
 package Bot::Games::Game::24;
 use Bot::Games::OO;
-extends 'Bot::Games::Game';
 
 use List::Util qw/shuffle/;
 use Math::Expression::Evaluator;
