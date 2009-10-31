@@ -1,5 +1,5 @@
 package Bot::Games::Game::24;
-use Bot::Games::OO::Game;
+use Bot::Games::OO;
 extends 'Bot::Games::Game';
 
 use List::Util qw/shuffle/;
@@ -28,7 +28,7 @@ sub init {
     return $self->generate_24;
 }
 
-augment turn => sub {
+sub turn {
     my $self = shift;
     my ($player, $expr) = @_;
     $self->add_player($player) unless $self->has_player($player);
@@ -101,6 +101,6 @@ sub evaluate {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Bot::Games::OO::Game;
+no Bot::Games::OO;
 
 1;

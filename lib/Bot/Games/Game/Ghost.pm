@@ -1,5 +1,5 @@
 package Bot::Games::Game::Ghost;
-use Bot::Games::OO::Game;
+use Bot::Games::OO;
 use Games::Word::Wordlist;
 extends 'Bot::Games::Game';
 with 'Bot::Games::Game::Role::CurrentPlayer';
@@ -41,7 +41,7 @@ around state => sub {
     return $self->$orig($state);
 };
 
-augment turn => sub {
+sub turn {
     my $self = shift;
     my ($player, $state) = @_;
     $self->maybe_add_player($player);
@@ -126,6 +126,6 @@ around maybe_add_player => sub {
 };
 
 __PACKAGE__->meta->make_immutable;
-no Bot::Games::OO::Game;
+no Bot::Games::OO;
 
 1;

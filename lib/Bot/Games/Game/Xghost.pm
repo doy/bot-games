@@ -1,5 +1,5 @@
 package Bot::Games::Game::Xghost;
-use Bot::Games::OO::Game;
+use Bot::Games::OO;
 use Games::Word qw/is_substring/;
 extends 'Bot::Games::Game::Ghost';
 
@@ -21,6 +21,6 @@ command valid_word_from_state => sub {
 }, formatter => 'Bool';
 
 __PACKAGE__->meta->make_immutable;
-no Bot::Games::OO::Game;
+no Bot::Games::OO;
 
 1;

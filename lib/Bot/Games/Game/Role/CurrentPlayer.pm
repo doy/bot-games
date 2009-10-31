@@ -1,5 +1,5 @@
 package Bot::Games::Game::Role::CurrentPlayer;
-use Bot::Games::OO::Game::Role;
+use Bot::Games::OO::Role;
 
 requires 'players', 'num_players', 'add_player';
 
@@ -40,6 +40,6 @@ sub maybe_add_player {
     }
 }
 
-no Bot::Games::OO::Game::Role;
+no Bot::Games::OO::Role;
 
 1;

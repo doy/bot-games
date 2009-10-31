@@ -1,5 +1,5 @@
 package Bot::Games::Game::Chess;
-use Bot::Games::OO::Game;
+use Bot::Games::OO;
 extends 'Bot::Games::Game';
 with 'Bot::Games::Game::Role::CurrentPlayer';
 
@@ -17,7 +17,7 @@ has game => (
 );
 
 has turn_count => (
-    traits   => ['Counter'],
+    traits   => ['MooseX::AttributeHelpers::Trait::Counter'],
     is       => 'ro',
     isa      => 'Int',
     default  => 1,
@@ -26,7 +26,7 @@ has turn_count => (
     }
 );
 
-augment turn => sub {
+sub turn  {
     my $self = shift;
     my ($player, $move) = @_;
     $self->maybe_add_player($player);
@@ -91,6 +91,6 @@ sub format_turn {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Bot::Games::OO::Game;
+no Bot::Games::OO;
 
 1;

@@ -1,5 +1,5 @@
 package Bot::Games::Game::Superghost;
-use Bot::Games::OO::Game;
+use Bot::Games::OO;
 extends 'Bot::Games::Game::Ghost';
 
 has '+help' => (
@@ -21,6 +21,6 @@ command valid_word_from_state => sub {
 }, formatter => 'Bool';
 
 __PACKAGE__->meta->make_immutable;
-no Bot::Games::OO::Game;
+no Bot::Games::OO;
 
 1;

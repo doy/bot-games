@@ -2,13 +2,21 @@
 use strict;
 use warnings;
 use lib 'lib';
+use IM::Engine;
 use Bot::Games;
 
-Bot::Games->new(
-    server   => 'irc.efnet.net',
-    channels => ['#netmonster'],
-    nick     => 'doygames',
-    username => 'doygames',
-    name     => 'doygames',
-    prefix   => '@',
+IM::Engine->new(
+    interface => {
+        protocol => 'REPL',
+    },
+    plugins => [
+        Commands => {
+            namespace        => 'Bot::Games::Game',
+            exclude_commands => qr/Bot::Games::Game::Role/,
+            prefix           => '@',
+            alias            => {
+                sg => 'superghost',
+            },
+        },
+    ],
 )->run;
