@@ -17,7 +17,7 @@ command valid_move => sub {
 command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
-    return is_substring($self->state, uc($move));
+    return is_substring($self->state, uc($word));
 }, formatter => 'Bool';
 
 __PACKAGE__->meta->make_immutable;
