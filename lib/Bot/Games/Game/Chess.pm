@@ -17,12 +17,12 @@ has game => (
 );
 
 has turn_count => (
-    traits   => ['MooseX::AttributeHelpers::Trait::Counter'],
+    traits   => [qw(Counter)],
     is       => 'ro',
     isa      => 'Int',
     default  => 1,
-    provides => {
-        inc => 'inc_turn',
+    handles  => {
+        inc_turn => 'inc',
     }
 );
 

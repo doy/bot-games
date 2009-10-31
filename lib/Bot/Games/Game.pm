@@ -2,31 +2,26 @@ package Bot::Games::Game;
 use Bot::Games::OO;
 use DateTime;
 use Time::Duration;
+use List::MoreUtils qw(any);
 
 has players => (
-    traits     => ['MooseX::AttributeHelpers::Trait::Collection::Array'],
+    traits     => [qw(Array)],
     is         => 'ro',
     isa        => 'ArrayRef[Str]',
     auto_deref => 1,
     default    => sub { [] },
-    provides   => {
-        push  => 'add_player',
-        count => 'num_players',
-    },
-    curries    => {
-        find  => {
-            has_player => sub {
-                my $self = shift;
-                my $body = shift;
-                my ($player) = @_;
-                return $self->$body(sub { $_[0] eq $player }) ? 1 : 0;
-            },
-        },
+    handles => {
+        add_player  => 'push',
+        num_players => 'count',
     },
     command    => 1,
 );
 command 'num_players';
-command 'has_player', formatter => 'Bool';
+command has_player => sub {
+    my $self = shift;
+    my ($player) = @_;
+    return any { $_ eq $player } $self->players;
+}, formatter => 'Bool';
 
 has start_time => (
     is         => 'ro',
