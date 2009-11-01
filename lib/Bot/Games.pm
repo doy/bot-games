@@ -98,6 +98,16 @@ sub BUILD {
     $self->_ime;
 }
 
+sub _check_required {
+    my $self = shift;
+    my @attrs = @_;
+    my $protocol = $self->protocol;
+    for my $attr (@attrs) {
+        die "Protocol $protocol requires option $attr to be set"
+            unless defined $self->$attr;
+    }
+}
+
 sub _build_credentials {
     my $self = shift;
     my $protocol = $self->protocol;
