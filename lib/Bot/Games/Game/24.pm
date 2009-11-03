@@ -32,6 +32,7 @@ sub turn {
     my ($player, $expr) = @_;
     $self->add_player($player) unless $self->has_player($player);
 
+    $expr =~ s/\s//g;
     my $numbers = join ',', sort grep { $_ } split(/[-\+\*\/\(\)]+/, $expr);
     my $solution = join ',', sort split(' ', $self->state);
     return "invalid numbers" unless $numbers eq $solution;
