@@ -59,9 +59,9 @@ command resign => sub {
     my $self = shift;
     my ($dummy, $args) = @_;
     $self->is_active(0);
-    return "$args->{player} resigns: "
+    return "$args->{sender} resigns: "
          . App::Nopaste::nopaste(text => $self->game->dump_pos,
-                                 nick => $args->{player})
+                                 nick => $args->{sender})
 };
 
 command state => sub {
@@ -77,7 +77,7 @@ command state => sub {
     }
     return "$player to play: "
          . App::Nopaste::nopaste(text => $self->game->dump_pos,
-                                 nick => $args->{player});
+                                 nick => $args->{sender});
 };
 
 sub format_turn {

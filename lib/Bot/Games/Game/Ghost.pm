@@ -69,7 +69,7 @@ sub allow_new_player {
 command challenge => sub {
     my $self = shift;
     my ($word, $args) = @_;
-    my $player = $args->{player};
+    my $player = $args->{sender};
     $self->maybe_add_player($player);
     return "It's " . $self->current_player . "'s turn!"
         if $player ne $self->current_player;
