@@ -17,9 +17,7 @@ command valid_move => sub {
 command valid_word_from_state => sub {
     my $self = shift;
     my ($word) = @_;
-    $word = uc join '', sort split(//, $word);
-    my $state = join '', sort split(//, $self->state);
-    return $word eq $state;
+    return is_subpermutation($self->state, uc($word));
 }, formatter => 'Bool';
 
 __PACKAGE__->meta->make_immutable;
