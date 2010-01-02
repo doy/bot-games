@@ -4,6 +4,7 @@ use Bot::Games::OO;
 use List::Util qw/shuffle/;
 use Math::Expression::Evaluator;
 use Time::Duration;
+use Try::Tiny;
 
 has '+help' => (
     default => '24 help',
@@ -96,8 +97,8 @@ sub generate_24 {
 sub evaluate {
     my $self = shift;
     my ($expr) = @_;
-    return undef unless $expr =~ /^[-\d\+\*\/\(\)]+$/;
-    return eval { Math::Expression::Evaluator->new->parse($expr)->val };
+    return unless $expr =~ /^[-\d\+\*\/\(\)]+$/;
+    return try { Math::Expression::Evaluator->new->parse($expr)->val };
 }
 
 __PACKAGE__->meta->make_immutable;
